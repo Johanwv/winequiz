@@ -18,7 +18,7 @@ public class Start
 	/**
 	 * Main function, starts the jetty server.
 	 *
-	 * @param args
+	 *
 	 */
 	public static void main(String[] args)
 	{
@@ -36,36 +36,6 @@ public class Start
 		http.setIdleTimeout(1000 * 60 * 60);
 
 		server.addConnector(http);
-
-		Resource keystore = Resource.newClassPathResource("/keystore");
-		if (keystore != null && keystore.exists())
-		{
-			// if a keystore for a SSL certificate is available, start a SSL
-			// connector on port 8080.
-			// By default, the quickstart comes with a Apache Wicket Quickstart
-			// Certificate that expires about half way september 2021. Do not
-			// use this certificate anywhere important as the passwords are
-			// available in the source.
-
-			SslContextFactory sslContextFactory = new SslContextFactory();
-			sslContextFactory.setKeyStoreResource(keystore);
-			sslContextFactory.setKeyStorePassword("wicket");
-			sslContextFactory.setKeyManagerPassword("wicket");
-
-			HttpConfiguration https_config = new HttpConfiguration(http_config);
-			https_config.addCustomizer(new SecureRequestCustomizer());
-
-			ServerConnector https = new ServerConnector(server, new SslConnectionFactory(
-					sslContextFactory, "http/1.1"), new HttpConnectionFactory(https_config));
-			https.setPort(8443);
-			https.setIdleTimeout(500000);
-
-			server.addConnector(https);
-			System.out.println("SSL access to the examples has been enabled on port 8080");
-			System.out
-					.println("You can access the application using SSL on https://localhost:8080");
-			System.out.println();
-		}
 
 		WebAppContext bb = new WebAppContext();
 		bb.setServer(server);
