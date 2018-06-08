@@ -1,5 +1,7 @@
 package nl.wine.quiz;
 
+import nl.wine.quiz.web.WineQuizApplication;
+import nl.wine.quiz.web.base.BaseWineQuizPage;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +16,7 @@ public class TestHomePage
 	@Before
 	public void setUp()
 	{
-		tester = new WicketTester(new WicketApplication());
+		tester = new WicketTester(new WineQuizApplication());
 	}
 
 	@Test

@@ -1,8 +1,16 @@
 .wineQuizHeader {
-    background-color: #ff2d39;
+    background-color: transparent;
     text-align: center;
 }
 
 .wineQuizBody {
-    background-color: #942a25;
+    background: url(../background.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.footer{
+    color: white;
 }

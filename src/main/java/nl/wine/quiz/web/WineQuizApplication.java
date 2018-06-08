@@ -1,5 +1,6 @@
-package nl.wine.quiz;
+package nl.wine.quiz.web;
 
+import nl.wine.quiz.web.base.BaseWineQuizPage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
@@ -9,7 +10,7 @@ import org.apache.wicket.protocol.http.WebApplication;
  *
  * @see nl.wine.quiz.Start#main(String[])
  */
-public class WicketApplication extends WebApplication
+public class WineQuizApplication extends WebApplication
 {
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
