@@ -1,7 +1,7 @@
 package nl.wine.quiz;
 
 import nl.wine.quiz.web.WineQuizApplication;
-import nl.wine.quiz.web.game.BaseGamePage;
+import nl.wine.quiz.web.game.StartGamePage;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,10 +22,10 @@ public class TestHomePage
     @Test
     public void homepageRendersSuccessfully()
     {
-        //start and render the test page
-        tester.startPage(BaseGamePage.class);
+        //region and render the test page
+        tester.startPage(StartGamePage.class);
 
         //assert rendered page class
-        tester.assertRenderedPage(BaseGamePage.class);
+        tester.assertRenderedPage(StartGamePage.class);
     }
 }
