@@ -14,3 +14,10 @@
 .footer{
     color: white;
 }
+
+.container-fluid{
+    height:100%;
+    display:table;
+    width: 100%;
+    padding: 0;
+}
