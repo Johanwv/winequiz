@@ -11,13 +11,15 @@
     background-size: cover;
 }
 
-.footer{
+.footer-text {
     color: white;
 }
 
-.container-fluid{
-    height:100%;
-    display:table;
-    width: 100%;
-    padding: 0;
+.btn-style {
+    margin: 20pt;
+    padding: 10pt;
+}
+
+.container-fluid {
+    padding-top: 20px !important;
 }
