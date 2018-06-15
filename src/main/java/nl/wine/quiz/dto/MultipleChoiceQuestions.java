@@ -3,7 +3,7 @@ package nl.wine.quiz.dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class MultipleChoice implements Serializable
+public class MultipleChoiceQuestions implements Serializable
 {
     private String question;
 

@@ -1,7 +1,7 @@
 package nl.wine.quiz.web.game.region;
 
 
-import nl.wine.quiz.dto.MultipleChoice;
+import nl.wine.quiz.dto.MultipleChoiceQuestions;
 import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.util.ModelUtil;
 import nl.wine.quiz.web.base.BaseWineQuizPage;
@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class RegionGamePage extends BaseWineQuizPage
+public class GamePage extends BaseWineQuizPage
 {
     private List<Option> options;
 
     private String answer;
 
-    public RegionGamePage()
+    public GamePage()
     {
         Form<Void> optionsForm = new Form<>("optionsForm");
 
@@ -30,10 +30,10 @@ public class RegionGamePage extends BaseWineQuizPage
 
         answer = determineAnswer(options);
 
-        optionsForm.add(getStopButton("optionA", 0));
-        optionsForm.add(getStopButton("optionB", 1));
-        optionsForm.add(getStopButton("optionC", 2));
-        optionsForm.add(getStopButton("optionD", 3));
+        optionsForm.add(getOptionButton("optionA", 0));
+        optionsForm.add(getOptionButton("optionB", 1));
+        optionsForm.add(getOptionButton("optionC", 2));
+        optionsForm.add(getOptionButton("optionD", 3));
         add(optionsForm);
     }
 
@@ -43,7 +43,7 @@ public class RegionGamePage extends BaseWineQuizPage
         return option.getOption();
     }
 
-    private List<MultipleChoice> getQuestions()
+    private List<MultipleChoiceQuestions> getQuestions()
     {
         List<Option> options = new ArrayList<>();
         Option optionA = new Option();
@@ -69,17 +69,17 @@ public class RegionGamePage extends BaseWineQuizPage
 
         Collections.shuffle(options);
 
-        List<MultipleChoice> questions = new ArrayList<>();
+        List<MultipleChoiceQuestions> questions = new ArrayList<>();
 
-        MultipleChoice multipleChoice = new MultipleChoice();
-        multipleChoice.setOptions(options);
-        multipleChoice.setQuestion("Wat is the answer?");
+        MultipleChoiceQuestions multipleChoiceQuestions = new MultipleChoiceQuestions();
+        multipleChoiceQuestions.setOptions(options);
+        multipleChoiceQuestions.setQuestion("Wat is the answer?");
 
-        questions.add(multipleChoice);
+        questions.add(multipleChoiceQuestions);
         return questions;
     }
 
-    private AjaxButton getStopButton(String id, int optionNumber)
+    private AjaxButton getOptionButton(String id, int optionNumber)
     {
         IModel model = new PropertyModel<>(ModelUtil.createModel(options.get(optionNumber)), "option");
         AjaxButton ajaxButton = new AjaxButton(id, model)

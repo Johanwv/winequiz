@@ -2,7 +2,7 @@ package nl.wine.quiz.web.game;
 
 
 import nl.wine.quiz.web.base.BaseWineQuizPage;
-import nl.wine.quiz.web.game.region.RegionGamePage;
+import nl.wine.quiz.web.game.region.GamePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.Form;
@@ -17,7 +17,7 @@ public class StartGamePage extends BaseWineQuizPage
             @Override
             protected void onSubmit(AjaxRequestTarget target)
             {
-                setResponsePage(RegionGamePage.class);
+                setResponsePage(GamePage.class);
             }
         });
         add(form);
