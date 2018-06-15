@@ -1,6 +1,6 @@
 package nl.wine.quiz.web;
 
-import nl.wine.quiz.web.game.StartGamePage;
+import nl.wine.quiz.web.game.start.StartGamePage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 

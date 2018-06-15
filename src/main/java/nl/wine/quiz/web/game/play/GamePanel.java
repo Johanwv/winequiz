@@ -1,14 +1,13 @@
-package nl.wine.quiz.web.game.region;
-
+package nl.wine.quiz.web.game.play;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestions;
 import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.util.ModelUtil;
-import nl.wine.quiz.web.base.BaseWineQuizPage;
-import nl.wine.quiz.web.game.StartGamePage;
+import nl.wine.quiz.web.game.start.StartGamePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
@@ -16,14 +15,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GamePage extends BaseWineQuizPage
+public class GamePanel extends Panel
 {
     private List<Option> options;
 
     private String answer;
 
-    public GamePage()
+
+    public GamePanel(String id)
     {
+        super(id);
+
         Form<Void> optionsForm = new Form<>("optionsForm");
 
         options = getQuestions().get(0).getOptions();

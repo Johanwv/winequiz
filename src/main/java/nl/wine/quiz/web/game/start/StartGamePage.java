@@ -1,8 +1,8 @@
-package nl.wine.quiz.web.game;
+package nl.wine.quiz.web.game.start;
 
 
 import nl.wine.quiz.web.base.BaseWineQuizPage;
-import nl.wine.quiz.web.game.region.GamePage;
+import nl.wine.quiz.web.game.play.GamePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.Form;
