@@ -1,6 +1,8 @@
 package nl.wine.quiz.dto;
 
-public class Option
+import java.io.Serializable;
+
+public class Option implements Serializable
 {
     private String option;
 

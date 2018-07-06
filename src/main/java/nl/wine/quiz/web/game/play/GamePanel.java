@@ -11,6 +11,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.GenericPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.StringResourceModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,11 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
         questionForm = new Form<>("optionsForm", model);
         questionForm.setOutputMarkupId(true);
+
+        IModel questionModel = new PropertyModel(model, "question");
+//        getString("question", questionModel)
+        questionForm.add(new Label("question", new StringResourceModel("question", this, questionModel)));
+
 
         questionForm.add(getOptionButton("optionA", model));
         questionForm.add(getOptionButton("optionB", model));
