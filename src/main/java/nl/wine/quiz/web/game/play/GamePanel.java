@@ -1,7 +1,6 @@
 package nl.wine.quiz.web.game.play;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
-import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.util.ModelUtil;
 import nl.wine.quiz.web.game.start.StartGamePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -40,12 +39,6 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
         questionForm.add(numberOfQuestionsLabel);
         add(questionForm);
-    }
-
-    private String determineAnswer(List<Option> options)
-    {
-        Option option = options.stream().filter(Option::isAnswer).findFirst().get();
-        return option.getOption();
     }
 
     private AjaxButton getOptionButton(String id, IModel model)
