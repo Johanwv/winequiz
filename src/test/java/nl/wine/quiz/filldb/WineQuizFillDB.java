@@ -2,15 +2,12 @@ package nl.wine.quiz.filldb;
 
 import nl.wine.quiz.model.Wine;
 import nl.wine.quiz.model.enums.WineRegion;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import nl.wine.quiz.service.hibernate.HibernateService;
+import nl.wine.quiz.service.hibernate.HibernateServiceImpl;
 
 public class WineQuizFillDB
 {
-    private SessionFactory sessionFactory;
-
-    private Session session;
+    private HibernateService hibernateService = new HibernateServiceImpl();
 
     public static void main(String[] args)
     {
@@ -19,44 +16,21 @@ public class WineQuizFillDB
 
     private void createAndFillDb()
     {
-        sessionFactory = createSessionFactory();
-        session = createSession();
         saveWines();
-    }
-
-    private SessionFactory createSessionFactory()
-    {
-        return new Configuration().configure().buildSessionFactory();
-    }
-
-    private Session createSession()
-    {
-        return sessionFactory.getCurrentSession();
     }
 
     private void saveWines()
     {
-        try
-        {
-            session.beginTransaction();
 
-            Wine wine1 = createWine("Bourgueil", WineRegion.VALLEE_DE_LA_LOIRE);
-            Wine wine2 = createWine("Pouilly-fuissé", WineRegion.BOURGOGNE);
-            Wine wine3 = createWine("Sauternes", WineRegion.BORDEAUX);
-            Wine wine4 = createWine("Saint-amour", WineRegion.BEAUJOLAIS);
+        Wine wine1 = createWine("Bourgueil", WineRegion.VALLEE_DE_LA_LOIRE);
+        Wine wine2 = createWine("Pouilly-fuissé", WineRegion.BOURGOGNE);
+        Wine wine3 = createWine("Sauternes", WineRegion.BORDEAUX);
+        Wine wine4 = createWine("Saint-amour", WineRegion.BEAUJOLAIS);
 
-            session.saveOrUpdate(wine1);
-            session.saveOrUpdate(wine2);
-            session.saveOrUpdate(wine3);
-            session.saveOrUpdate(wine4);
-
-            commit();
-            session.close();
-        } catch (Exception e)
-        {
-            System.out.println(e);
-            rollBack();
-        }
+        hibernateService.saveOrUpdate(wine1);
+        hibernateService.saveOrUpdate(wine2);
+        hibernateService.saveOrUpdate(wine3);
+        hibernateService.saveOrUpdate(wine4);
     }
 
     private Wine createWine(String name, WineRegion region)
@@ -67,13 +41,5 @@ public class WineQuizFillDB
         return wine;
     }
 
-    private void commit()
-    {
-        session.getTransaction().commit();
-    }
 
-    private void rollBack()
-    {
-        session.getTransaction().rollback();
-    }
 }
