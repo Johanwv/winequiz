@@ -1,7 +1,8 @@
 package nl.wine.quiz.web.game.play;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
-import nl.wine.quiz.dto.Option;
+import nl.wine.quiz.service.PlayService;
+import nl.wine.quiz.service.game.PlayServiceImpl;
 import nl.wine.quiz.util.ModelUtil;
 import nl.wine.quiz.web.game.start.StartGamePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -13,12 +14,12 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 {
+    private PlayService playService = new PlayServiceImpl();
+
     private int counter;
 
     private int score;
@@ -35,7 +36,6 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         questionForm.setOutputMarkupId(true);
 
         IModel questionModel = new PropertyModel(model, "question");
-//        getString("question", questionModel)
         questionForm.add(new Label("question", new StringResourceModel("question", this, questionModel)));
 
 
@@ -66,8 +66,8 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
     private void determineNextStep(AjaxRequestTarget target, String choice)
     {
-        score += isCorrect(choice);
-        if (isAnotherQuestion())
+        score += playService.isCorrect(choice, questionForm.getModelObject());
+        if (playService.isAnotherQuestion(counter++, getModelObject()))
         {
             displayNextQuestion(target);
         }
@@ -75,38 +75,6 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         {
             goToStartPage();
         }
-    }
-
-    private int isCorrect(String choice)
-    {
-        Optional<String> answer = determineAnswer();
-        if (answer.isPresent() && answer.get().equals(choice))
-        {
-            return 1;
-        }
-        return 0;
-    }
-
-    private Optional<String> determineAnswer()
-    {
-        MultipleChoiceQuestion multipleChoiceQuestion = questionForm.getModelObject();
-        List<Option> options = makeListOfOptions(multipleChoiceQuestion);
-        return options.stream().filter(Option::isAnswer).map(Option::getOption).findFirst();
-    }
-
-    private List<Option> makeListOfOptions(MultipleChoiceQuestion multipleChoiceQuestion)
-    {
-        List<Option> options = new ArrayList<>();
-        options.add(multipleChoiceQuestion.getOptionA());
-        options.add(multipleChoiceQuestion.getOptionB());
-        options.add(multipleChoiceQuestion.getOptionC());
-        options.add(multipleChoiceQuestion.getOptionD());
-        return options;
-    }
-
-    private boolean isAnotherQuestion()
-    {
-        return ++counter < getModelObject().size();
     }
 
     private void displayNextQuestion(AjaxRequestTarget target)
