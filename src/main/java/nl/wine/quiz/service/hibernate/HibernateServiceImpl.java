@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class HibernateServiceImpl implements HibernateService
 {
@@ -48,6 +49,12 @@ public class HibernateServiceImpl implements HibernateService
     public <T> T get(Class<T> entityType, Serializable id)
     {
         return getSession().get(entityType, id);
+    }
+
+    @Override
+    public <T> List<T> getAll(Class<T> entityType)
+    {
+        return getSession().createCriteria(entityType).list();
     }
 
     private void commit(Session session)

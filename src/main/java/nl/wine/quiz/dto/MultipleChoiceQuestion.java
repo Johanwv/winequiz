@@ -14,6 +14,8 @@ public class MultipleChoiceQuestion implements Serializable
 
     private String optionD;
 
+    private String Answer;
+
     public String getQuestion()
     {
         return question;
@@ -62,5 +64,15 @@ public class MultipleChoiceQuestion implements Serializable
     public void setOptionD(String optionD)
     {
         this.optionD = optionD;
+    }
+
+    public String getAnswer()
+    {
+        return Answer;
+    }
+
+    public void setAnswer(String answer)
+    {
+        Answer = answer;
     }
 }
