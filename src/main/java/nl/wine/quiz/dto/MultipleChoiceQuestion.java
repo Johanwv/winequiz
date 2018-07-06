@@ -6,15 +6,13 @@ public class MultipleChoiceQuestion implements Serializable
 {
     private String question;
 
-    private String optionA;
+    private Option optionA;
 
-    private String optionB;
+    private Option optionB;
 
-    private String optionC;
+    private Option optionC;
 
-    private String optionD;
-
-    private String Answer;
+    private Option optionD;
 
     public String getQuestion()
     {
@@ -26,53 +24,44 @@ public class MultipleChoiceQuestion implements Serializable
         this.question = question;
     }
 
-    public String getOptionA()
+    public Option getOptionA()
     {
         return optionA;
     }
 
-    public void setOptionA(String optionA)
+    public void setOptionA(Option optionA)
     {
         this.optionA = optionA;
     }
 
-    public String getOptionB()
+    public Option getOptionB()
     {
         return optionB;
     }
 
-    public void setOptionB(String optionB)
+    public void setOptionB(Option optionB)
     {
         this.optionB = optionB;
     }
 
-    public String getOptionC()
+    public Option getOptionC()
     {
         return optionC;
     }
 
-    public void setOptionC(String optionC)
+    public void setOptionC(Option optionC)
     {
         this.optionC = optionC;
     }
 
-    public String getOptionD()
+    public Option getOptionD()
     {
         return optionD;
     }
 
-    public void setOptionD(String optionD)
+    public void setOptionD(Option optionD)
     {
         this.optionD = optionD;
     }
 
-    public String getAnswer()
-    {
-        return Answer;
-    }
-
-    public void setAnswer(String answer)
-    {
-        Answer = answer;
-    }
 }

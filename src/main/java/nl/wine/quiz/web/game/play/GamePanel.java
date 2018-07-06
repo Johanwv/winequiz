@@ -29,7 +29,7 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         questionForm = new Form<>("optionsForm", model);
         questionForm.setOutputMarkupId(true);
 
-        questionForm.add(getOptionButton("optionA", model));
+        questionForm.add(getOptionButtonA("optionA", model));
         questionForm.add(getOptionButton("optionB", model));
         questionForm.add(getOptionButton("optionC", model));
         questionForm.add(getOptionButton("optionD", model));
@@ -44,6 +44,19 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
     private AjaxButton getOptionButton(String id, IModel model)
     {
         IModel propertyModel = new PropertyModel<>(model, id);
+        return new AjaxButton(id, propertyModel)
+        {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target)
+            {
+                determineNextStep(target);
+            }
+        };
+    }
+
+    private AjaxButton getOptionButtonA(String id, IModel model)
+    {
+        IModel propertyModel = new PropertyModel<>(model, id + ".option");
         return new AjaxButton(id, propertyModel)
         {
             @Override
