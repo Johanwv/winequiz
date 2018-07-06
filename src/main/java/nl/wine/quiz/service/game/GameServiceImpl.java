@@ -50,13 +50,13 @@ public class GameServiceImpl implements GameService
             Wine wine = wines.get(j);
             option.setChoice(wine.getWineRegion().getName());
 
-            coupleAnswerToQuestion(randNumb, newQuestion, j, option, wine);
-            coupleOptionWithQuestion(newQuestion, j, option);
+            determineAnswerAndCouple(newQuestion, option, wine, randNumb, j);
+            coupleOptionWithQuestion(newQuestion, option, j);
         }
         return newQuestion;
     }
 
-    private void coupleAnswerToQuestion(int randNumb, MultipleChoiceQuestion question, int j, Option option, Wine wine)
+    private void determineAnswerAndCouple(MultipleChoiceQuestion question, Option option, Wine wine, int randNumb, int j)
     {
         if (randNumb == j)
         {
@@ -69,23 +69,22 @@ public class GameServiceImpl implements GameService
         }
     }
 
-    private void coupleOptionWithQuestion(MultipleChoiceQuestion question, int j, Option option)
+    private void coupleOptionWithQuestion(MultipleChoiceQuestion question, Option option, int j)
     {
-        if (j == 0)
+        switch (j)
         {
-            question.setOptionA(option);
-        }
-        else if (j == 1)
-        {
-            question.setOptionB(option);
-        }
-        else if (j == 2)
-        {
-            question.setOptionC(option);
-        }
-        else if (j == 3)
-        {
-            question.setOptionD(option);
+            case 0:
+                question.setOptionA(option);
+                break;
+            case 1:
+                question.setOptionB(option);
+                break;
+            case 2:
+                question.setOptionC(option);
+                break;
+            case 3:
+                question.setOptionD(option);
+                break;
         }
     }
 }
