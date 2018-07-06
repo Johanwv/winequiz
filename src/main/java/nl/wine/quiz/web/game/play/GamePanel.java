@@ -19,7 +19,7 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
     private int counter;
 
-    Form<Void> questionForm;
+    private Form<Void> questionForm;
 
     public GamePanel(String id, IModel<List<MultipleChoiceQuestion>> multipleChoiceQuestionsModel)
     {
