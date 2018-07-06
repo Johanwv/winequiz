@@ -23,11 +23,6 @@ public class Wine
         return wineId;
     }
 
-    public void setWineId(int wineId)
-    {
-        this.wineId = wineId;
-    }
-
     public String getWineName()
     {
         return wineName;

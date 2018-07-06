@@ -34,6 +34,8 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
 
+        <!-- Name object classes -->
+        <mapping class="nl.wine.quiz.model.Wine"/>
 
     </session-factory>
 </hibernate-configuration>
