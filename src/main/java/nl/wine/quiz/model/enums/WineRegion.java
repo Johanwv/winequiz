@@ -20,7 +20,7 @@ public enum WineRegion implements IName
     @Override
     public String getName()
     {
-        return null;
+        return name;
     }
 
 }

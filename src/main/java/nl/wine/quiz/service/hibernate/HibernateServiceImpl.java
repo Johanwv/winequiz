@@ -2,22 +2,19 @@ package nl.wine.quiz.service.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HibernateServiceImpl implements HibernateService
 {
-    private SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     public SessionFactory getSessionFactory()
     {
         return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory)
-    {
-        this.sessionFactory = sessionFactory;
     }
 
     private Session getSession()
@@ -54,7 +51,23 @@ public class HibernateServiceImpl implements HibernateService
     @Override
     public <T> List<T> getAll(Class<T> entityType)
     {
-        return getSession().createCriteria(entityType).list();
+        Session session = null;
+        List<T> list = new ArrayList<>();
+        try
+        {
+            session = getSession();
+            session.beginTransaction();
+            list = getSession().createCriteria(entityType).list();
+
+            commit(session);
+            session.close();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            rollBack(session);
+        }
+        return list;
     }
 
     private void commit(Session session)

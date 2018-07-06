@@ -12,7 +12,6 @@ public class GamePage extends BaseWineQuizPage
 
     public GamePage()
     {
-//        ModelUtil.listIModel(getQuestions())
         GamePanel panel = new GamePanel("gamePanel", ModelUtil.listIModel(gameService.getQuestions()));
         panel.setOutputMarkupId(true);
         add(panel);
