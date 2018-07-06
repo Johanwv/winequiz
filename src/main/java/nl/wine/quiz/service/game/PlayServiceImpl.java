@@ -29,7 +29,7 @@ public class PlayServiceImpl implements PlayService
     private Optional<String> determineAnswer(MultipleChoiceQuestion multipleChoiceQuestion)
     {
         List<Option> options = makeListOfOptions(multipleChoiceQuestion);
-        return options.stream().filter(Option::isAnswer).map(Option::getOption).findFirst();
+        return options.stream().filter(Option::isAnswer).map(Option::getChoice).findFirst();
     }
 
     private List<Option> makeListOfOptions(MultipleChoiceQuestion multipleChoiceQuestion)

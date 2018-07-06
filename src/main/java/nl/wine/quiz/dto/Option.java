@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 public class Option implements Serializable
 {
-    private String option;
+    private String choice;
 
     private boolean answer;
 
-    public String getOption()
+    public String getChoice()
     {
-        return option;
+        return choice;
     }
 
-    public void setOption(String option)
+    public void setChoice(String choice)
     {
-        this.option = option;
+        this.choice = choice;
     }
 
     public boolean isAnswer()

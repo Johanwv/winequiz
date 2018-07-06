@@ -39,10 +39,10 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         questionForm.add(new Label("question", new StringResourceModel("question", this, questionModel)));
 
 
-        questionForm.add(getOptionButton("optionA", model));
-        questionForm.add(getOptionButton("optionB", model));
-        questionForm.add(getOptionButton("optionC", model));
-        questionForm.add(getOptionButton("optionD", model));
+        questionForm.add(getOption("optionA", model));
+        questionForm.add(getOption("optionB", model));
+        questionForm.add(getOption("optionC", model));
+        questionForm.add(getOption("optionD", model));
 
         Label numberOfQuestionsLabel = new Label("counter", new PropertyModel<>(this, "counter"));
         numberOfQuestionsLabel.setOutputMarkupId(true);
@@ -51,9 +51,9 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         add(questionForm);
     }
 
-    private AjaxButton getOptionButton(String id, IModel model)
+    private AjaxButton getOption(String id, IModel model)
     {
-        IModel propertyModel = new PropertyModel<>(model, id + ".option");
+        IModel propertyModel = new PropertyModel<>(model, id + ".choice");
         return new AjaxButton(id, propertyModel)
         {
             @Override
@@ -67,7 +67,7 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
     private void determineNextStep(AjaxRequestTarget target, String choice)
     {
         score += playService.isCorrect(choice, questionForm.getModelObject());
-        if (playService.isAnotherQuestion(counter++, getModelObject()))
+        if (playService.isAnotherQuestion(++counter, getModelObject()))
         {
             displayNextQuestion(target);
         }

@@ -3,7 +3,7 @@ package nl.wine.quiz.service.hibernate;
 import java.io.Serializable;
 import java.util.List;
 
-public interface HibernateService
+public interface HibernateService extends Serializable
 {
     void saveOrUpdate(Object object);
 
