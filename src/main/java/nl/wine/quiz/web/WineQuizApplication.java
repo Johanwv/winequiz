@@ -1,5 +1,7 @@
 package nl.wine.quiz.web;
 
+import nl.wine.quiz.service.hibernate.HibernateService;
+import nl.wine.quiz.service.hibernate.HibernateServiceImpl;
 import nl.wine.quiz.web.game.start.StartGamePage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -18,6 +20,7 @@ public class WineQuizApplication extends WebApplication
     @Override
     public Class<? extends WebPage> getHomePage()
     {
+        HibernateService hibernateService = new HibernateServiceImpl();
         return StartGamePage.class;
     }
 
