@@ -35,6 +35,11 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         questionForm = new Form<>("optionsForm", model);
         questionForm.setOutputMarkupId(true);
 
+        createNumberOfQuestions();
+
+        Label totalNumbQuestions = new Label("totalNumbQuestions", "/" + getModelObject().size());
+        questionForm.add(totalNumbQuestions);
+
         createScore();
 
         createQuestion(model);
@@ -42,6 +47,14 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         createButtons(model);
 
         add(questionForm);
+    }
+
+    private void createNumberOfQuestions()
+    {
+        IModel numberOfQuestionsModel = new PropertyModel<>(this, "counter");
+        Label numbQuestion = new Label("numbQuestionLeft", new StringResourceModel("game.number.of.questions", this, numberOfQuestionsModel));
+        numbQuestion.setOutputMarkupId(true);
+        questionForm.add(numbQuestion);
     }
 
     private void createScore()

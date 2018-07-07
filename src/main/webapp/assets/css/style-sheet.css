@@ -13,10 +13,9 @@
 
 .score {
     text-align: right;
-    color: black;
 }
 
-.question {
+.black-text {
     color: black;
 }
 
@@ -24,10 +23,14 @@
     color: white;
 }
 
+.total-numb {
+    text-align: left;
+}
+
 .btn-style {
     margin: 20pt;
     padding: 10pt;
-    width: 125pt;
+    width: 125pt !important;
     height: 50pt;
 }
 
