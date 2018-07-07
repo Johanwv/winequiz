@@ -35,20 +35,35 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         questionForm = new Form<>("optionsForm", model);
         questionForm.setOutputMarkupId(true);
 
+        createScore();
+
+        createQuestion(model);
+
+        createButtons(model);
+
+        add(questionForm);
+    }
+
+    private void createScore()
+    {
+        IModel scoreModel = new PropertyModel<>(this, "score");
+        Label score = new Label("score", new StringResourceModel("game.score", this, scoreModel));
+        score.setOutputMarkupId(true);
+        questionForm.add(score);
+    }
+
+    private void createQuestion(IModel model)
+    {
         IModel questionModel = new PropertyModel(model, "question");
-        questionForm.add(new Label("question", new StringResourceModel("question", this, questionModel)));
+        questionForm.add(new Label("question", new StringResourceModel("wine.question", this, questionModel)));
+    }
 
-
+    private void createButtons(IModel model)
+    {
         questionForm.add(getOption("optionA", model));
         questionForm.add(getOption("optionB", model));
         questionForm.add(getOption("optionC", model));
         questionForm.add(getOption("optionD", model));
-
-        Label numberOfQuestionsLabel = new Label("counter", new PropertyModel<>(this, "counter"));
-        numberOfQuestionsLabel.setOutputMarkupId(true);
-
-        questionForm.add(numberOfQuestionsLabel);
-        add(questionForm);
     }
 
     private AjaxButton getOption(String id, IModel model)
