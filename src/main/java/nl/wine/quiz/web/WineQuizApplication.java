@@ -20,7 +20,6 @@ public class WineQuizApplication extends WebApplication
     @Override
     public Class<? extends WebPage> getHomePage()
     {
-        HibernateService hibernateService = new HibernateServiceImpl();
         return StartGamePage.class;
     }
 
@@ -31,7 +30,7 @@ public class WineQuizApplication extends WebApplication
     public void init()
     {
         super.init();
-
+        HibernateService hibernateService = new HibernateServiceImpl();
         // add your configuration here
     }
 }
