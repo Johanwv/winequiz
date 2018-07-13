@@ -1,7 +1,8 @@
 package nl.wine.quiz.web.game.play;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
-import nl.wine.quiz.dto.Option;
+import nl.wine.quiz.service.PlayService;
+import nl.wine.quiz.service.game.PlayServiceImpl;
 import nl.wine.quiz.util.ModelUtil;
 import nl.wine.quiz.web.game.start.StartGamePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -11,15 +12,19 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.GenericPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.StringResourceModel;
 
 import java.util.List;
 
 public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 {
+    private PlayService playService = new PlayServiceImpl();
 
     private int counter;
 
-    private Form<Void> questionForm;
+    private int score;
+
+    private Form<MultipleChoiceQuestion> questionForm;
 
     public GamePanel(String id, IModel<List<MultipleChoiceQuestion>> multipleChoiceQuestionsModel)
     {
@@ -30,51 +35,74 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         questionForm = new Form<>("optionsForm", model);
         questionForm.setOutputMarkupId(true);
 
-        questionForm.add(getOptionButton("optionA", model));
-        questionForm.add(getOptionButton("optionB", model));
-        questionForm.add(getOptionButton("optionC", model));
-        questionForm.add(getOptionButton("optionD", model));
+        createNumberOfQuestions();
 
-        Label numberOfQuestionsLabel = new Label("counter", new PropertyModel<>(this, "counter"));
-        numberOfQuestionsLabel.setOutputMarkupId(true);
+        Label totalNumbQuestions = new Label("totalNumbQuestions", "/" + getModelObject().size());
+        questionForm.add(totalNumbQuestions);
 
-        questionForm.add(numberOfQuestionsLabel);
+        createScore();
+
+        createQuestion(model);
+
+        createButtons(model);
+
         add(questionForm);
     }
 
-    private String determineAnswer(List<Option> options)
+    private void createNumberOfQuestions()
     {
-        Option option = options.stream().filter(Option::isAnswer).findFirst().get();
-        return option.getOption();
+        IModel numberOfQuestionsModel = new PropertyModel<>(this, "counter");
+        Label numbQuestion = new Label("numbQuestionLeft", new StringResourceModel("game.number.of.questions", this, numberOfQuestionsModel));
+        numbQuestion.setOutputMarkupId(true);
+        questionForm.add(numbQuestion);
     }
 
-    private AjaxButton getOptionButton(String id, IModel model)
+    private void createScore()
     {
-        IModel propertyModel = new PropertyModel<>(model, id);
+        IModel scoreModel = new PropertyModel<>(this, "score");
+        Label score = new Label("score", new StringResourceModel("game.score", this, scoreModel));
+        score.setOutputMarkupId(true);
+        questionForm.add(score);
+    }
+
+    private void createQuestion(IModel model)
+    {
+        IModel questionModel = new PropertyModel(model, "question");
+        questionForm.add(new Label("question", new StringResourceModel("wine.question", this, questionModel)));
+    }
+
+    private void createButtons(IModel model)
+    {
+        questionForm.add(getOption("optionA", model));
+        questionForm.add(getOption("optionB", model));
+        questionForm.add(getOption("optionC", model));
+        questionForm.add(getOption("optionD", model));
+    }
+
+    private AjaxButton getOption(String id, IModel model)
+    {
+        IModel propertyModel = new PropertyModel<>(model, id + ".choice");
         return new AjaxButton(id, propertyModel)
         {
             @Override
             protected void onSubmit(AjaxRequestTarget target)
             {
-                determineNextStep(target);
+                determineNextStep(target, getModelObject());
             }
         };
     }
 
-    private void determineNextStep(AjaxRequestTarget target)
+    private void determineNextStep(AjaxRequestTarget target, String choice)
     {
-        if (isAnotherQuestion())
+        score += playService.isCorrect(choice, questionForm.getModelObject());
+        if (playService.isAnotherQuestion(++counter, getModelObject()))
         {
             displayNextQuestion(target);
-        } else
+        }
+        else
         {
             goToStartPage();
         }
-    }
-
-    private boolean isAnotherQuestion()
-    {
-        return ++counter < getModelObject().size();
     }
 
     private void displayNextQuestion(AjaxRequestTarget target)

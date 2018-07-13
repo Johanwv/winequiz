@@ -1,7 +1,15 @@
 <html xmlns:wicket="http://www.w3.org/1999/xhtml">
 
 <wicket:panel>
-    <form class="row-fluid" wicket:id="optionsForm">
+    <form class="row-fluid black-text" wicket:id="optionsForm">
+        <div class="span12">
+            <h4 class="score span9" wicket:id="numbQuestionLeft"></h4>
+            <h4 class="total-numb" wicket:id="totalNumbQuestions"> / 4</h4>
+        </div>
+        <h4 class="score span9" wicket:id="score"></h4>
+        <span>
+            <h4 class="text span12" wicket:id="question"></h4>
+        </span>
         <div>
             <div>
                 <input type="button" class="btn btn-info btn-style" value="OptionA" wicket:id="optionA"/>
@@ -12,7 +20,6 @@
                 <input type="button" class="btn btn-info btn-style" value="OptionD" wicket:id="optionD"/>
             </div>
         </div>
-        <h1 class="page-header wineQuizHeader" wicket:id="counter"></h1>
     </form>
 </wicket:panel>
 
