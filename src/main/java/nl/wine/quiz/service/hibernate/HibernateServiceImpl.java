@@ -4,11 +4,13 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class HibernateServiceImpl implements HibernateService
 {
     private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();

@@ -45,6 +45,7 @@
         <jetty9.version>9.4.7.v20170914</jetty9.version>
         <slf4j.version>1.7.25</slf4j.version>
         <junit.version>4.12</junit.version>
+        <spring.version>5.0.7.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
         <wtp.version>none</wtp.version>
@@ -111,7 +112,13 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.0.7.RELEASE</version>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
 
@@ -123,6 +130,13 @@
             <scope>test</scope>
         </dependency>
         -->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.wicket/wicket-spring -->
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-spring</artifactId>
+            <version>8.0.0</version>
+        </dependency>
 
     </dependencies>
     <build>

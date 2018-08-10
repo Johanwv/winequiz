@@ -3,11 +3,13 @@ package nl.wine.quiz.service.game;
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
 import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.service.PlayService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PlayServiceImpl implements PlayService
 {
     public int isCorrect(String choice, MultipleChoiceQuestion multipleChoiceQuestion)

@@ -5,6 +5,9 @@ import nl.wine.quiz.service.hibernate.HibernateServiceImpl;
 import nl.wine.quiz.web.game.start.StartGamePage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Application object for your web application.
@@ -30,7 +33,17 @@ public class WineQuizApplication extends WebApplication
     public void init()
     {
         super.init();
+
+        ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        initSpring();
+
         HibernateService hibernateService = new HibernateServiceImpl();
         // add your configuration here
+    }
+
+    private void initSpring()
+    {
+        getComponentInstantiationListeners().add(new SpringComponentInjector(this));
     }
 }
