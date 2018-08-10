@@ -17,19 +17,15 @@
         The value might be either "development" (reloading when templates change) or
         "deployment". If no configuration is found, "development" is the default. -->
 
-    <filter>
-        <filter-name>wicket.winequiz</filter-name>
-        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
-        <init-param>
-            <param-name>applicationClassName</param-name>
-            <param-value>nl.wine.quiz.web.WineQuizApplication</param-value>
-        </init-param>
-    </filter>
+    <!-- The SpringWebApplicationFactory will need access to a Spring Application context, configured like this... -->
+    <context-param>
+        <param-name>locatorFactorySelector</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
-    <filter-mapping>
-        <filter-name>wicket.winequiz</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
 
     <servlet>
         <servlet-name>wicketServlet</servlet-name>
@@ -49,12 +45,5 @@
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
-    <!-- The SpringWebApplicationFactory will need access to a Spring Application context, configured like this... -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/applicationContext.xml</param-value>
-    </context-param>
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+
 </web-app>

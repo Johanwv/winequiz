@@ -8,6 +8,7 @@
     <context:annotation-config/>
 
     <context:component-scan base-package="nl.wine.quiz.service"/>
+    <context:component-scan base-package="nl.wine.quiz.web.game.play"/>
 
 
 </beans>

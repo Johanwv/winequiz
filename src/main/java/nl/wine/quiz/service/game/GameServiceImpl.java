@@ -5,7 +5,7 @@ import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.model.Wine;
 import nl.wine.quiz.service.GameService;
 import nl.wine.quiz.service.hibernate.HibernateService;
-import nl.wine.quiz.service.hibernate.HibernateServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,7 +16,8 @@ import java.util.Random;
 @Service
 public class GameServiceImpl implements GameService
 {
-    private HibernateService hibernateService = new HibernateServiceImpl();
+    @Autowired
+    private HibernateService hibernateService;
 
     @Override
     public List<MultipleChoiceQuestion> getQuestions()

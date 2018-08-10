@@ -34,7 +34,6 @@ public class WineQuizApplication extends WebApplication
     {
         super.init();
 
-        ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 
         initSpring();
 
@@ -44,6 +43,7 @@ public class WineQuizApplication extends WebApplication
 
     private void initSpring()
     {
-        getComponentInstantiationListeners().add(new SpringComponentInjector(this));
+        ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        getComponentInstantiationListeners().add(new SpringComponentInjector(this, appContext));
     }
 }
