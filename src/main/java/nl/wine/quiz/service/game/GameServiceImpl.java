@@ -8,10 +8,7 @@ import nl.wine.quiz.service.hibernate.HibernateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class GameServiceImpl implements GameService
@@ -52,13 +49,13 @@ public class GameServiceImpl implements GameService
         return winesForQuestion;
     }
 
-    private List<Wine> randomSelectOptions(List<Wine> allWines, Wine answer)
+    private HashSet<Wine> randomSelectOptions(List<Wine> allWines, Wine answer)
     {
         Random random = new Random();
         int randNumb;
         List<Wine> winesForOptions = new ArrayList<>(allWines);
         winesForOptions.remove(answer);
-        List<Wine> optionWines = new ArrayList<>();
+        HashSet<Wine> optionWines = new HashSet<>();
 
         for (int i = 0; i < 3; i = optionWines.size())
         {
@@ -95,9 +92,14 @@ public class GameServiceImpl implements GameService
         return option;
     }
 
-    private boolean isValidOptionWine(List<Wine> optionWines, Wine answer, Wine optionWine)
+    private boolean isValidOptionWine(HashSet<Wine> optionWines, Wine answer, Wine optionWine)
     {
-        return !optionWine.equals(answer) && !optionWine.getWineRegion().equals(answer.getWineRegion()) && !optionWines.contains(optionWine);
+        return !optionWine.equals(answer) && !optionWines.contains(optionWine) && !optionWines.stream().anyMatch(wine -> isSameRegion(optionWine, wine));
+    }
+
+    private boolean isSameRegion(Wine optionWine, Wine wine)
+    {
+        return optionWine.getWineRegion().equals(wine.getWineRegion());
     }
 
     private void setOptionForQuestion(MultipleChoiceQuestion question, Option option)
