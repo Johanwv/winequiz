@@ -13,22 +13,16 @@ public class WineQuizFillDB
 
     public static void main(String[] args)
     {
-        new WineQuizFillDB().createAndFillDb();
+        new WineQuizFillDB().resetAndFillDb();
+        System.exit(0);
     }
 
-    private void createAndFillDb()
-    {
-        saveWines();
-    }
-
-    private void saveWines()
+    private void resetAndFillDb()
     {
         ResetTables.resetTables(hibernateService.getSession());
-
 
         List<Wine> wines = CsvReader.readFileAndCreateWines();
         hibernateService.saveOrUpdateAll(wines);
     }
-
 
 }
