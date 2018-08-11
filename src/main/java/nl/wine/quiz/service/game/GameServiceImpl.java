@@ -20,26 +20,25 @@ public class GameServiceImpl implements GameService
     public List<MultipleChoiceQuestion> getQuestions()
     {
         List<Wine> wines = hibernateService.getAll(Wine.class);
-        return mapWinesToQuestions(wines);
+        return createQuestions(wines);
     }
 
-    private List<MultipleChoiceQuestion> mapWinesToQuestions(List<Wine> wines)
+    List<MultipleChoiceQuestion> createQuestions(List<Wine> wines)
     {
-        List<Wine> allWines = wines;
         List<MultipleChoiceQuestion> multipleChoiceQuestions = new ArrayList<>();
 
         Collections.shuffle(wines);
 
         for (Wine answer : wines)
         {
-            List<Wine> winesForQuestion = fillOptionsForQuestion(allWines, answer);
+            List<Wine> winesForQuestion = createWinesForQuestion(wines, answer);
 
             multipleChoiceQuestions.add(createQuestion(winesForQuestion, answer));
         }
         return multipleChoiceQuestions;
     }
 
-    private List<Wine> fillOptionsForQuestion(List<Wine> allWines, Wine answer)
+    private List<Wine> createWinesForQuestion(List<Wine> allWines, Wine answer)
     {
         List<Wine> winesForQuestion = new ArrayList<>();
         winesForQuestion.add(answer);
@@ -94,7 +93,7 @@ public class GameServiceImpl implements GameService
 
     private boolean isValidOptionWine(HashSet<Wine> optionWines, Wine answer, Wine optionWine)
     {
-        return !optionWine.equals(answer) && !optionWines.contains(optionWine) && !optionWines.stream().anyMatch(wine -> isSameRegion(optionWine, wine));
+        return !optionWine.equals(answer) && !isSameRegion(answer, optionWine) && !optionWines.contains(optionWine) && optionWines.stream().noneMatch(wine -> isSameRegion(optionWine, wine));
     }
 
     private boolean isSameRegion(Wine optionWine, Wine wine)
