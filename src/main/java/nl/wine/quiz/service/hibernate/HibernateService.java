@@ -7,6 +7,8 @@ public interface HibernateService extends Serializable
 {
     void saveOrUpdate(Object object);
 
+    <T> void saveOrUpdateAll(List<T> objects);
+
     <T> T get(Class<T> entityType, Serializable id);
 
     <T> List<T> getAll(Class<T> entityType);

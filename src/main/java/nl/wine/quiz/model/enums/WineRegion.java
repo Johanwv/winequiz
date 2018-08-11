@@ -8,7 +8,11 @@ public enum WineRegion implements IName
 
     BORDEAUX("Bordeaux"),
 
-    BEAUJOLAIS("Beaujolais");
+    BEAUJOLAIS("Beaujolais"),
+
+    ALSACE("Alsace"),
+
+    VALLEE_DU_RHONE("Vallée du Rhône");
 
     private String name;
 

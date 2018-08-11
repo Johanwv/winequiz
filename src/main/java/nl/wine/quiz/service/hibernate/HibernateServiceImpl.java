@@ -46,6 +46,30 @@ public class HibernateServiceImpl implements HibernateService
     }
 
     @Override
+    public <T> void saveOrUpdateAll(List<T> objects)
+    {
+        Session session = null;
+        try
+        {
+            session = getSession();
+            session.beginTransaction();
+
+            for (Object object : objects)
+            {
+                session.saveOrUpdate(object);
+            }
+
+            commit(session);
+            session.close();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            rollBack(session);
+        }
+    }
+
+    @Override
     public <T> T get(Class<T> entityType, Serializable id)
     {
         return getSession().get(entityType, id);
