@@ -33,7 +33,7 @@ public class WineUtil
     }
 
 
-    private static Wine createWine(String name, WineRegion region)
+    public static Wine createWine(String name, WineRegion region)
     {
         Wine wine = new Wine();
         wine.setWineName(name);

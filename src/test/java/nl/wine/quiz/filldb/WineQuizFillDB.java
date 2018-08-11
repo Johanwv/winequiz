@@ -1,9 +1,9 @@
 package nl.wine.quiz.filldb;
 
+import nl.wine.quiz.filldb.csv.CsvReader;
 import nl.wine.quiz.model.Wine;
 import nl.wine.quiz.service.hibernate.HibernateService;
 import nl.wine.quiz.service.hibernate.HibernateServiceImpl;
-import nl.wine.quiz.util.WineUtil;
 
 import java.util.List;
 
@@ -26,8 +26,7 @@ public class WineQuizFillDB
         ResetTables.resetTables(hibernateService.getSession());
 
 
-
-        List<Wine> wines = WineUtil.createWines();
+        List<Wine> wines = CsvReader.readFileAndCreateWines();
         hibernateService.saveOrUpdateAll(wines);
     }
 

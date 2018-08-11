@@ -12,7 +12,9 @@ public enum WineRegion implements IName
 
     ALSACE("Alsace"),
 
-    VALLEE_DU_RHONE("Vallée du Rhône");
+    VALLEE_DU_RHONE("Vallée du Rhône"),
+
+    LANGUEDOC_ROUSSILLON("Languedoc-Roussillon");
 
     private String name;
 
