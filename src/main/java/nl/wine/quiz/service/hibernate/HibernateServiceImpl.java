@@ -20,7 +20,7 @@ public class HibernateServiceImpl implements HibernateService
         return sessionFactory;
     }
 
-    private Session getSession()
+    public Session getSession()
     {
         return sessionFactory.getCurrentSession();
     }

@@ -23,8 +23,11 @@ public class WineQuizFillDB
 
     private void saveWines()
     {
-        List<Wine> wines = WineUtil.createWines();
+        ResetTables.resetTables(hibernateService.getSession());
 
+
+
+        List<Wine> wines = WineUtil.createWines();
         hibernateService.saveOrUpdateAll(wines);
     }
 
