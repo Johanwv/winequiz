@@ -28,66 +28,99 @@ public class GameServiceImpl implements GameService
 
     private List<MultipleChoiceQuestion> mapWinesToQuestions(List<Wine> wines)
     {
+        List<Wine> allWines = wines;
         List<MultipleChoiceQuestion> multipleChoiceQuestions = new ArrayList<>();
-        Random random = new Random();
-        int randNumb;
 
-        for (int i = 0; i < wines.size(); i++)
+        Collections.shuffle(wines);
+
+        for (Wine answer : wines)
         {
-            Collections.shuffle(wines);
-            randNumb = random.nextInt(4);
+            List<Wine> winesForQuestion = fillOptionsForQuestion(allWines, answer);
 
-            MultipleChoiceQuestion question = createQuestion(wines, randNumb);
-            multipleChoiceQuestions.add(question);
+            multipleChoiceQuestions.add(createQuestion(winesForQuestion, answer));
         }
         return multipleChoiceQuestions;
     }
 
-    private MultipleChoiceQuestion createQuestion(List<Wine> wines, int randNumb)
+    private List<Wine> fillOptionsForQuestion(List<Wine> allWines, Wine answer)
+    {
+        List<Wine> winesForQuestion = new ArrayList<>();
+        winesForQuestion.add(answer);
+        winesForQuestion.addAll(randomSelectOptions(allWines, answer));
+        Collections.shuffle(winesForQuestion);
+
+        return winesForQuestion;
+    }
+
+    private List<Wine> randomSelectOptions(List<Wine> allWines, Wine answer)
+    {
+        Random random = new Random();
+        int randNumb;
+        List<Wine> winesForOptions = new ArrayList<>(allWines);
+        winesForOptions.remove(answer);
+        List<Wine> optionWines = new ArrayList<>();
+
+        for (int i = 0; i < 3; i = optionWines.size())
+        {
+            randNumb = random.nextInt(winesForOptions.size());
+
+            Wine optionWine = winesForOptions.get(randNumb);
+            if (isValidOptionWine(optionWines, answer, optionWine))
+            {
+                optionWines.add(optionWine);
+                winesForOptions.remove(optionWine);
+            }
+        }
+        return optionWines;
+    }
+
+    private MultipleChoiceQuestion createQuestion(List<Wine> winesForQuestion, Wine answer)
     {
         MultipleChoiceQuestion newQuestion = new MultipleChoiceQuestion();
-        for (int j = 0; j < 4; j++)
+        newQuestion.setQuestion(answer.getWineName());
+        for (Wine wine : winesForQuestion)
         {
-            Option option = new Option();
-
-            Wine wine = wines.get(j);
-            option.setChoice(wine.getWineRegion().getName());
-
-            determineAnswerAndCouple(newQuestion, option, wine, randNumb, j);
-            coupleOptionWithQuestion(newQuestion, option, j);
+            Option option = createOption(answer, wine);
+            setOptionForQuestion(newQuestion, option);
         }
         return newQuestion;
     }
 
-    private void determineAnswerAndCouple(MultipleChoiceQuestion question, Option option, Wine wine, int randNumb, int j)
+    private Option createOption(Wine answer, Wine wine)
     {
-        if (randNumb == j)
+        Option option = new Option();
+        option.setChoice(wine.getWineRegion().getName());
+        option.setAnswer(wine.equals(answer));
+
+        return option;
+    }
+
+    private boolean isValidOptionWine(List<Wine> optionWines, Wine answer, Wine optionWine)
+    {
+        return !optionWine.equals(answer) && !optionWine.getWineRegion().equals(answer.getWineRegion()) && !optionWines.contains(optionWine);
+    }
+
+    private void setOptionForQuestion(MultipleChoiceQuestion question, Option option)
+    {
+        if (question.getOptionA() == null)
         {
-            option.setAnswer(true);
-            question.setQuestion(wine.getWineName());
+            question.setOptionA(option);
+        }
+        else if (question.getOptionB() == null)
+        {
+            question.setOptionB(option);
+        }
+        else if (question.getOptionC() == null)
+        {
+            question.setOptionC(option);
+        }
+        else if (question.getOptionD() == null)
+        {
+            question.setOptionD(option);
         }
         else
         {
-            option.setAnswer(false);
-        }
-    }
-
-    private void coupleOptionWithQuestion(MultipleChoiceQuestion question, Option option, int j)
-    {
-        switch (j)
-        {
-            case 0:
-                question.setOptionA(option);
-                break;
-            case 1:
-                question.setOptionB(option);
-                break;
-            case 2:
-                question.setOptionC(option);
-                break;
-            case 3:
-                question.setOptionD(option);
-                break;
+            throw new IllegalStateException("No options to set for question: " + question);
         }
     }
 }

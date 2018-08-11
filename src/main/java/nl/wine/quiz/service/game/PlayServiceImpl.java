@@ -15,11 +15,8 @@ public class PlayServiceImpl implements PlayService
     public int isCorrect(String choice, MultipleChoiceQuestion multipleChoiceQuestion)
     {
         Optional<String> answer = determineAnswer(multipleChoiceQuestion);
-        if (answer.isPresent() && answer.get().equals(choice))
-        {
-            return 1;
-        }
-        return 0;
+
+        return (answer.isPresent() && answer.get().equals(choice)) ? 1 : 0;
     }
 
     public boolean isAnotherQuestion(int counter, List<MultipleChoiceQuestion> questions)

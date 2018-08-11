@@ -2,7 +2,6 @@ package nl.wine.quiz.web.game.play;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
 import nl.wine.quiz.service.PlayService;
-import nl.wine.quiz.service.game.PlayServiceImpl;
 import nl.wine.quiz.util.ModelUtil;
 import nl.wine.quiz.web.game.start.StartGamePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -13,12 +12,15 @@ import org.apache.wicket.markup.html.panel.GenericPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 {
-    private PlayService playService = new PlayServiceImpl();
+    @SpringBean
+    private PlayService playService;
 
     private int counter;
 
@@ -26,11 +28,14 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
     private Form<MultipleChoiceQuestion> questionForm;
 
+    private CopyOnWriteArrayList<MultipleChoiceQuestion> questionsList;
+
     public GamePanel(String id, IModel<List<MultipleChoiceQuestion>> multipleChoiceQuestionsModel)
     {
         super(id, multipleChoiceQuestionsModel);
 
-        IModel model = ModelUtil.createModel(getModelObject().get(counter));
+        questionsList = new CopyOnWriteArrayList<>(multipleChoiceQuestionsModel.getObject());
+        IModel model = ModelUtil.createModel(questionsList.get(0));
 
         questionForm = new Form<>("optionsForm", model);
         questionForm.setOutputMarkupId(true);
@@ -73,13 +78,13 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
     private void createButtons(IModel model)
     {
-        questionForm.add(getOption("optionA", model));
-        questionForm.add(getOption("optionB", model));
-        questionForm.add(getOption("optionC", model));
-        questionForm.add(getOption("optionD", model));
+        questionForm.add(getOptionButton("optionA", model));
+        questionForm.add(getOptionButton("optionB", model));
+        questionForm.add(getOptionButton("optionC", model));
+        questionForm.add(getOptionButton("optionD", model));
     }
 
-    private AjaxButton getOption(String id, IModel model)
+    private AjaxButton getOptionButton(String id, IModel model)
     {
         IModel propertyModel = new PropertyModel<>(model, id + ".choice");
         return new AjaxButton(id, propertyModel)
@@ -107,7 +112,8 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
     private void displayNextQuestion(AjaxRequestTarget target)
     {
-        questionForm.setDefaultModelObject(getModelObject().get(counter));
+        questionsList.remove(0);
+        questionForm.setDefaultModelObject(questionsList.get(0));
         target.add(questionForm);
     }
 
