@@ -19,7 +19,7 @@ public class Variety
     private int varietyId;
 
     @Column
-    private WineType wineTypes;
+    private WineType wineType;
 
     @ManyToMany(mappedBy = "varieties")
     private Set<Wine> wines;
@@ -29,14 +29,14 @@ public class Variety
         return varietyId;
     }
 
-    public WineType getWineTypes()
+    public WineType getWineType()
     {
-        return wineTypes;
+        return wineType;
     }
 
-    public void setWineTypes(WineType wineTypes)
+    public void setWineType(WineType wineTypes)
     {
-        this.wineTypes = wineTypes;
+        this.wineType = wineTypes;
     }
 
     public Set<Wine> getWines()

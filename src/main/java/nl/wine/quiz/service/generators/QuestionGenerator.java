@@ -46,7 +46,7 @@ public abstract class QuestionGenerator
         return option;
     }
 
-    protected Set<Wine> randomSelectOptions(List<Wine> allWines, Wine answer)
+    private Set<Wine> randomSelectOptions(List<Wine> allWines, Wine answer)
     {
         Random random = new Random();
         int randNumb;

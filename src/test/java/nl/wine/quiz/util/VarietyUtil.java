@@ -10,10 +10,17 @@ import java.util.Optional;
 
 public class VarietyUtil
 {
-    public static Variety createVariety(String wineType)
+    static Variety createVarietie(WineType wineType)
     {
         Variety variety = new Variety();
-        variety.setWineTypes(getWineType(wineType));
+        variety.setWineType(wineType);
+        return variety;
+    }
+
+    public static Variety createVarietie(String wineType)
+    {
+        Variety variety = new Variety();
+        variety.setWineType(getWineType(wineType));
         return variety;
     }
 

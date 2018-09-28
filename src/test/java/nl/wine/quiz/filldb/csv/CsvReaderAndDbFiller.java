@@ -47,7 +47,7 @@ public class CsvReaderAndDbFiller
                     Wine newWine = WineUtil.createWine(name, region);
 
                     String type = wine[3];
-                    Variety newVariety = VarietyUtil.createVariety(type);
+                    Variety newVariety = VarietyUtil.createVarietie(type);
 
                     coupleWineAndVariety(newWine, newVariety);
 
@@ -82,7 +82,7 @@ public class CsvReaderAndDbFiller
         }
     }
 
-    private static void coupleWineAndVariety(Wine newWine, Variety newVariety)
+    public static void coupleWineAndVariety(Wine newWine, Variety newVariety)
     {
         coupleVarietyToWine(newWine, newVariety);
 

@@ -14,11 +14,9 @@ public class RegionQuestionGenerator extends QuestionGenerator
     {
         Set<Option> options = new HashSet<>();
 
-        for (Wine wine : wines)
-        {
-            options.add(createOption(wine.getWineRegion().getName(), false));
-        }
+        wines.forEach(wine -> options.add(createOption(wine.getWineRegion().getName(), false)));
         options.add(createOption(answer.getWineRegion().getName(), true));
+
         return options;
     }
 

@@ -2,8 +2,9 @@ package nl.wine.quiz.service.generators;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
 import nl.wine.quiz.dto.Option;
+import nl.wine.quiz.model.Variety;
 import nl.wine.quiz.model.Wine;
-import nl.wine.quiz.util.WineUtil;
+import nl.wine.quiz.util.TestHelper;
 import org.junit.Assert;
 
 import java.util.ArrayList;
@@ -13,11 +14,14 @@ class BaseQuestionGeneratorTest
 {
     List<Wine> wines;
 
+    List<Variety> varieties;
+
     List<MultipleChoiceQuestion> multipleChoiceQuestions;
 
     public void setUp(QuestionGenerator questionGenerator)
     {
-        wines = WineUtil.createWines();
+        wines = TestHelper.createWinesWithVarities();
+
         multipleChoiceQuestions = questionGenerator.createMultipleChoiceQuestions(wines);
     }
 
