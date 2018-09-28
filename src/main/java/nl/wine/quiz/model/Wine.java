@@ -1,11 +1,9 @@
 package nl.wine.quiz.model;
 
-import nl.wine.quiz.model.enums.WineGrape;
 import nl.wine.quiz.model.enums.WineRegion;
-import nl.wine.quiz.model.enums.WineType;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Wine
@@ -14,20 +12,15 @@ public class Wine
     @GeneratedValue
     private int wineId;
 
-    @Column
+    @Column(nullable = false)
     private String wineName;
 
     @Column
     @Enumerated(EnumType.STRING)
     private WineRegion wineRegion;
 
-    @ElementCollection
-    @Column
-    private List<WineType> wineTypes;
-
-    @ElementCollection
-    @Column
-    private List<WineGrape> wineGrapes;
+    @OneToMany(mappedBy = "wine")
+    private Set<Variety> varieties;
 
     public int getWineId()
     {
@@ -52,5 +45,15 @@ public class Wine
     public void setWineRegion(WineRegion wineRegion)
     {
         this.wineRegion = wineRegion;
+    }
+
+    public Set<Variety> getVarieties()
+    {
+        return varieties;
+    }
+
+    public void setVarieties(Set<Variety> varieties)
+    {
+        this.varieties = varieties;
     }
 }

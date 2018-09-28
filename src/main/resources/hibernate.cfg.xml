@@ -32,10 +32,11 @@
         <property name="show_sql">true</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create-drop</property>
 
         <!-- Name object classes -->
         <mapping class="nl.wine.quiz.model.Wine"/>
+        <mapping class="nl.wine.quiz.model.Variety"/>
 
     </session-factory>
 </hibernate-configuration>
