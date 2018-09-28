@@ -2,7 +2,14 @@ package nl.wine.quiz.model;
 
 import nl.wine.quiz.model.enums.WineRegion;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.util.Set;
 
 @Entity
@@ -19,7 +26,7 @@ public class Wine
     @Enumerated(EnumType.STRING)
     private WineRegion wineRegion;
 
-    @OneToMany(mappedBy = "wine")
+    @ManyToMany(cascade = {CascadeType.ALL})
     private Set<Variety> varieties;
 
     public int getWineId()

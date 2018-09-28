@@ -2,8 +2,14 @@ package nl.wine.quiz.model;
 
 import nl.wine.quiz.model.enums.WineGrape;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Variety
@@ -19,8 +25,8 @@ public class Variety
     @Column
     private List<WineGrape> wineGrapes;
 
-    @ManyToOne
-    private Wine wine;
+    @ManyToMany(mappedBy = "varieties")
+    private Set<Wine> wines;
 
     public int getVarietyId()
     {
@@ -47,13 +53,13 @@ public class Variety
         this.wineGrapes = wineGrapes;
     }
 
-    public Wine getWine()
+    public Set<Wine> getWines()
     {
-        return wine;
+        return wines;
     }
 
-    public void setWine(Wine wines)
+    public void setWines(Set<Wine> wine)
     {
-        this.wine = wines;
+        this.wines = wine;
     }
 }
