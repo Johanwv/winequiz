@@ -1,47 +1,27 @@
-package nl.wine.quiz.service.game;
+package nl.wine.quiz.service.generators;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
 import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.model.Wine;
-import nl.wine.quiz.service.generators.QuestionGenerator;
-import nl.wine.quiz.service.generators.RegionQuestionGenerator;
 import nl.wine.quiz.util.WineUtil;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameServiceTest
+class BaseQuestionGeneratorTest
 {
+    List<Wine> wines;
 
-    private List<Wine> wines;
+    List<MultipleChoiceQuestion> multipleChoiceQuestions;
 
-    private List<MultipleChoiceQuestion> multipleChoiceQuestions;
-
-    @Before
-    public void setUp()
+    public void setUp(QuestionGenerator questionGenerator)
     {
-        QuestionGenerator questionGenerator = new RegionQuestionGenerator();
         wines = WineUtil.createWines();
         multipleChoiceQuestions = questionGenerator.createMultipleChoiceQuestions(wines);
     }
 
-    @Test
-    public void testSameNumberOfQuestionsAsWines()
-    {
-        Assert.assertEquals(wines.size(), multipleChoiceQuestions.size());
-    }
-
-    @Test
-    public void testAllQuestionsAreUnique()
-    {
-        Assert.assertEquals(multipleChoiceQuestions.stream().distinct().count(), multipleChoiceQuestions.size());
-    }
-
-    @Test
-    public void testAllOptionsAreUnique()
+    void areAllUnique()
     {
         List<Option> options;
         for (MultipleChoiceQuestion question : multipleChoiceQuestions)
@@ -63,13 +43,10 @@ public class GameServiceTest
             final List<Option> copyOptions = new ArrayList<>(options);
             options.forEach(o -> Assert.assertTrue(copyOptions.stream().noneMatch(opt -> areSameChoices(o, opt))));
         }
-
-
     }
 
     private boolean areSameChoices(Option o, Option op)
     {
         return !o.equals(op) && o.getChoice().equals(op.getChoice());
     }
-
 }

@@ -6,7 +6,9 @@ import nl.wine.quiz.model.Wine;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public abstract class QuestionGenerator
@@ -14,6 +16,8 @@ public abstract class QuestionGenerator
     protected abstract Set<Option> createOptions(List<Wine> wines, Wine answer);
 
     protected abstract String createQuestion(Wine answer);
+
+    protected abstract boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine);
 
     public List<MultipleChoiceQuestion> createMultipleChoiceQuestions(List<Wine> wines)
     {
@@ -23,7 +27,9 @@ public abstract class QuestionGenerator
 
         for (Wine answer : wines)
         {
-            Set<Option> options = createOptions(wines, answer);
+            Set<Wine> wineOptions = randomSelectOptions(wines, answer);
+
+            Set<Option> options = createOptions(new ArrayList<>(wineOptions), answer);
             String question = createQuestion(answer);
 
             multipleChoiceQuestions.add(createMultipleChoiceQuestion(options, question));
@@ -31,13 +37,35 @@ public abstract class QuestionGenerator
         return multipleChoiceQuestions;
     }
 
-    protected Option createOption(String choice, boolean answer)
+    Option createOption(String choice, boolean answer)
     {
         Option option = new Option();
         option.setChoice(choice);
         option.setAnswer(answer);
 
         return option;
+    }
+
+    protected Set<Wine> randomSelectOptions(List<Wine> allWines, Wine answer)
+    {
+        Random random = new Random();
+        int randNumb;
+        List<Wine> winesForOptions = new ArrayList<>(allWines);
+        winesForOptions.remove(answer);
+        Set<Wine> optionWines = new HashSet<>();
+
+        for (int i = 0; i < 3; i = optionWines.size())
+        {
+            randNumb = random.nextInt(winesForOptions.size());
+
+            Wine optionWine = winesForOptions.get(randNumb);
+            if (isValidOptionWine(optionWines, answer, optionWine))
+            {
+                optionWines.add(optionWine);
+                winesForOptions.remove(optionWine);
+            }
+        }
+        return optionWines;
     }
 
     private MultipleChoiceQuestion createMultipleChoiceQuestion(Set<Option> options, String question)

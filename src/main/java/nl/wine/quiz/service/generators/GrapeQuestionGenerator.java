@@ -19,4 +19,10 @@ public class GrapeQuestionGenerator extends QuestionGenerator
     {
         return null;
     }
+
+    @Override
+    protected boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine)
+    {
+        return true;
+    }
 }
