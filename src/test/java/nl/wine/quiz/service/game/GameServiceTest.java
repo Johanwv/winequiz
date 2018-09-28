@@ -3,6 +3,8 @@ package nl.wine.quiz.service.game;
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
 import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.model.Wine;
+import nl.wine.quiz.service.generators.QuestionGenerator;
+import nl.wine.quiz.service.generators.RegionQuestionGenerator;
 import nl.wine.quiz.util.WineUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,33 +18,33 @@ public class GameServiceTest
 
     private List<Wine> wines;
 
-    private List<MultipleChoiceQuestion> questions;
+    private List<MultipleChoiceQuestion> multipleChoiceQuestions;
 
     @Before
     public void setUp()
     {
-        GameServiceImpl gameService = new GameServiceImpl();
+        QuestionGenerator questionGenerator = new RegionQuestionGenerator();
         wines = WineUtil.createWines();
-        questions = gameService.createQuestions(wines);
+        multipleChoiceQuestions = questionGenerator.createMultipleChoiceQuestions(wines);
     }
 
     @Test
     public void testSameNumberOfQuestionsAsWines()
     {
-        Assert.assertEquals(wines.size(), questions.size());
+        Assert.assertEquals(wines.size(), multipleChoiceQuestions.size());
     }
 
     @Test
     public void testAllQuestionsAreUnique()
     {
-        Assert.assertEquals(questions.stream().distinct().count(), questions.size());
+        Assert.assertEquals(multipleChoiceQuestions.stream().distinct().count(), multipleChoiceQuestions.size());
     }
 
     @Test
     public void testAllOptionsAreUnique()
     {
         List<Option> options;
-        for (MultipleChoiceQuestion question : questions)
+        for (MultipleChoiceQuestion question : multipleChoiceQuestions)
         {
             options = new ArrayList<>();
 

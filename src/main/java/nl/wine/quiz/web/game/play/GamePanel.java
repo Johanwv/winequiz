@@ -28,14 +28,14 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
     private Form<MultipleChoiceQuestion> questionForm;
 
-    private CopyOnWriteArrayList<MultipleChoiceQuestion> questionsList;
+    private CopyOnWriteArrayList<MultipleChoiceQuestion> multipleChoiceQuestions;
 
     public GamePanel(String id, IModel<List<MultipleChoiceQuestion>> multipleChoiceQuestionsModel)
     {
         super(id, multipleChoiceQuestionsModel);
 
-        questionsList = new CopyOnWriteArrayList<>(multipleChoiceQuestionsModel.getObject());
-        IModel model = ModelUtil.createModel(questionsList.get(0));
+        multipleChoiceQuestions = new CopyOnWriteArrayList<>(multipleChoiceQuestionsModel.getObject());
+        IModel model = ModelUtil.createModel(multipleChoiceQuestions.get(0));
 
         questionForm = new Form<>("optionsForm", model);
         questionForm.setOutputMarkupId(true);
@@ -112,8 +112,8 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
     private void displayNextQuestion(AjaxRequestTarget target)
     {
-        questionsList.remove(0);
-        questionForm.setDefaultModelObject(questionsList.get(0));
+        multipleChoiceQuestions.remove(0);
+        questionForm.setDefaultModelObject(multipleChoiceQuestions.get(0));
         target.add(questionForm);
     }
 
