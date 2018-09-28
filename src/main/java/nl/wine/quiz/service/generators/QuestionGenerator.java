@@ -15,10 +15,6 @@ public abstract class QuestionGenerator
 {
     protected abstract Set<Option> createOptions(List<Wine> wines, Wine answer);
 
-    protected abstract String createQuestion(Wine answer);
-
-    protected abstract boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine);
-
     public List<MultipleChoiceQuestion> createMultipleChoiceQuestions(List<Wine> wines)
     {
         List<MultipleChoiceQuestion> multipleChoiceQuestions = new ArrayList<>();
@@ -35,15 +31,6 @@ public abstract class QuestionGenerator
             multipleChoiceQuestions.add(createMultipleChoiceQuestion(options, question));
         }
         return multipleChoiceQuestions;
-    }
-
-    Option createOption(String choice, boolean answer)
-    {
-        Option option = new Option();
-        option.setChoice(choice);
-        option.setAnswer(answer);
-
-        return option;
     }
 
     private Set<Wine> randomSelectOptions(List<Wine> allWines, Wine answer)
@@ -68,7 +55,23 @@ public abstract class QuestionGenerator
         return optionWines;
     }
 
-    private MultipleChoiceQuestion createMultipleChoiceQuestion(Set<Option> options, String question)
+    abstract boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine);
+
+    Option createOption(String choice, boolean answer)
+    {
+        Option option = new Option();
+        option.setChoice(choice);
+        option.setAnswer(answer);
+
+        return option;
+    }
+
+    String createQuestion(Wine answer)
+    {
+        return answer.getWineName();
+    }
+
+    MultipleChoiceQuestion createMultipleChoiceQuestion(Set<Option> options, String question)
     {
         MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion();
 

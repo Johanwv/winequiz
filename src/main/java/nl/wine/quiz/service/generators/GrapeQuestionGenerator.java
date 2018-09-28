@@ -15,14 +15,8 @@ public class GrapeQuestionGenerator extends QuestionGenerator
     }
 
     @Override
-    protected String createQuestion(Wine answer)
+    boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine)
     {
-        return null;
-    }
-
-    @Override
-    protected boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine)
-    {
-        return true;
+        return false;
     }
 }

@@ -1,11 +1,14 @@
 package nl.wine.quiz.service.generators;
 
+import com.sun.deploy.util.StringUtils;
 import nl.wine.quiz.dto.Option;
+import nl.wine.quiz.model.Variety;
 import nl.wine.quiz.model.Wine;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TypeQuestionGenerator extends QuestionGenerator
 {
@@ -14,22 +17,28 @@ public class TypeQuestionGenerator extends QuestionGenerator
     {
         Set<Option> options = new HashSet<>();
 
-        wines.forEach(wine ->
-                wine.getVarieties().forEach(variety -> options.add(createOption(variety.getWineType().getName(), false))));
-        options.add(createOption(answer.getWineRegion().getName(), true));
+        wines.forEach(wine -> options.add(createOption(combineVarieties(wine.getVarieties()), false)));
+        options.add(createOption(combineVarieties(answer.getVarieties()), true));
 
         return options;
     }
 
     @Override
-    protected String createQuestion(Wine answer)
+    boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine)
     {
-        return null;
+        return !optionWine.equals(answer) && !areSameWineTypes(answer, optionWine) && !optionWines.contains(optionWine) && optionWines.stream().noneMatch(wine -> areSameWineTypes(optionWine, wine));
     }
 
-    @Override
-    protected boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine)
+    private String combineVarieties(Set<Variety> varieties)
     {
-        return true;
+        List<String> varietyOption = varieties.stream().map(variety -> variety.getWineType().getName()).collect(Collectors.toList());
+
+        return StringUtils.join(varietyOption, ", ");
     }
+
+    private boolean areSameWineTypes(Wine answer, Wine optionWine)
+    {
+        return answer.getVarieties().equals(optionWine.getVarieties());
+    }
+
 }

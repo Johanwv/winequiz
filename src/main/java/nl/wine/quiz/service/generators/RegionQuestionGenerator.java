@@ -20,13 +20,7 @@ public class RegionQuestionGenerator extends QuestionGenerator
         return options;
     }
 
-    @Override
-    protected String createQuestion(Wine answer)
-    {
-        return answer.getWineName();
-    }
-
-    protected boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine)
+    boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine)
     {
         return !optionWine.equals(answer) && !isSameRegion(answer, optionWine) && !optionWines.contains(optionWine) && optionWines.stream().noneMatch(wine -> isSameRegion(optionWine, wine));
     }
