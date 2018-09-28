@@ -25,7 +25,19 @@ public class GameServiceImpl implements GameService
     public List<MultipleChoiceQuestion> getQuestions(GameChoice gameChoice)
     {
         List<Wine> wines = hibernateService.getAll(Wine.class);
-        return createQuestions(wines);
+        if (gameChoice.equals(GameChoice.REGION))
+        {
+            return createQuestions(wines);
+        }
+        else if (gameChoice.equals(GameChoice.TYPE))
+        {
+
+        }
+        else if (gameChoice.equals(GameChoice.GRAPE))
+        {
+
+        }
+        throw new IllegalArgumentException("Game choice does not exist: " + gameChoice);
     }
 
     List<MultipleChoiceQuestion> createQuestions(List<Wine> wines)
