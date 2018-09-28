@@ -1,5 +1,6 @@
 package nl.wine.quiz.model;
 
+import nl.wine.quiz.model.enums.WineGrape;
 import nl.wine.quiz.model.enums.WineRegion;
 import nl.wine.quiz.model.enums.WineType;
 
@@ -23,6 +24,10 @@ public class Wine
     @ElementCollection
     @Column
     private List<WineType> wineTypes;
+
+    @ElementCollection
+    @Column
+    private List<WineGrape> wineGrapes;
 
     public int getWineId()
     {
