@@ -1,13 +1,13 @@
-﻿name;Wine Region;region;type;grape
-Bourgueil;Vallée de la Loire;Indre-et-Loire;rouge, rosé, blanc;
-Pouilly-fuissé;Bourgogne;Saône-et-Loire;blanc;
-Sauternes;Bordeaux;Gironde;blanc liquoreux;
-Saint-amour;Beaujolais;Saône-et-Loire;rouge;
-Riesling;Alsace;Bas-Rhin, Heat-Rhin;blanc;
-Saint-bris;Bourgogne;Yonne;blanc;
-Clairette de Die;Vallée du Rhône;Drôme;mousseux blanc;
-Loupiac;Bordeaux;mousseux blanc;liquoreux;
-Corton;Bourgogne;Côte-d'Or;rouge, blanc;
-Saint-estèphe;Bordeaux;Gironde;rouge;
-Morgon;Beaujolais;Rhône;rouge;
-Banyuls;Languedoc-Roussillon;Pyrénées-Orientales;blanc, rosé, rouge;
+﻿name;Wine Region;region;type_1;grapes_1;type_2;grapes_2;type_3;grapes_3;type_4;grapes_4
+Bourgueil;Vallée de la Loire;Indre-et-Loire;red;;rosé;;white;;;
+Pouilly-fuissé;Bourgogne;Saône-et-Loire;white;;;;;;;
+Sauternes;Bordeaux;Gironde;sweet;;;;;;;
+Saint-amour;Beaujolais;Saône-et-Loire;red;;;;;;;
+Riesling;Alsace;Bas-Rhin, Heat-Rhin;white;;;;;;;
+Saint-bris;Bourgogne;Yonne;white;;;;;;;
+Clairette de Die;Vallée du Rhône;Drôme;sparkling;;;;;;;
+Loupiac;Bordeaux;Gironde;sweet;;;;;;;
+Corton;Bourgogne;Côte-d'Or;red;;white;;;;;
+Saint-estèphe;Bordeaux;Gironde;red;;;;;;;
+Morgon;Beaujolais;Rhône;red;;;;;;;
+Banyuls;Languedoc-Roussillon;Pyrénées-Orientales;white;;rosé;;red;;;

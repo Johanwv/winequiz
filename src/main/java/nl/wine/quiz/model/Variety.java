@@ -1,5 +1,7 @@
 package nl.wine.quiz.model;
 
+import nl.wine.quiz.model.enums.WineType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,7 @@ public class Variety
     private int varietyId;
 
     @Column
-    private String wineTypes;
+    private WineType wineTypes;
 
     @ManyToMany(mappedBy = "varieties")
     private Set<Wine> wines;
@@ -27,12 +29,12 @@ public class Variety
         return varietyId;
     }
 
-    public String getWineTypes()
+    public WineType getWineTypes()
     {
         return wineTypes;
     }
 
-    public void setWineTypes(String wineTypes)
+    public void setWineTypes(WineType wineTypes)
     {
         this.wineTypes = wineTypes;
     }

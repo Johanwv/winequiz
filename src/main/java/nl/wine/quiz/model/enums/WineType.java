@@ -8,7 +8,9 @@ public enum WineType implements IName
 
     ROSE("Rosé"),
 
-    SPARKLING("Sparkling");
+    SPARKLING("Sparkling"),
+
+    SWEET("Sweet");
 
     private String name;
 
