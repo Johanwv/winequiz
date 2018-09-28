@@ -3,12 +3,17 @@ package nl.wine.quiz.service.game;
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
 import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.model.Wine;
+import nl.wine.quiz.model.enums.GameChoice;
 import nl.wine.quiz.service.GameService;
 import nl.wine.quiz.service.hibernate.HibernateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class GameServiceImpl implements GameService
@@ -17,7 +22,7 @@ public class GameServiceImpl implements GameService
     private HibernateService hibernateService;
 
     @Override
-    public List<MultipleChoiceQuestion> getQuestions()
+    public List<MultipleChoiceQuestion> getQuestions(GameChoice gameChoice)
     {
         List<Wine> wines = hibernateService.getAll(Wine.class);
         return createQuestions(wines);
