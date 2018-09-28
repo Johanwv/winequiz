@@ -34,15 +34,12 @@ public class CsvReader
             br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null)
             {
-
                 // use comma as separator
                 String[] wine = line.split(cvsSplitBy);
 
                 if (i++ > 0)
                 {
                     wines.add(WineUtil.createWine(wine[0], getWineRegion(wine[1])));
-
-
                 }
             }
 

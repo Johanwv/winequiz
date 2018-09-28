@@ -9,10 +9,14 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.Set;
 
 @Entity
+@Table
 public class Wine
 {
     @Id
@@ -27,6 +31,11 @@ public class Wine
     private WineRegion wineRegion;
 
     @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "Wine_Variety",
+            joinColumns = {@JoinColumn(name = "wine_id")},
+            inverseJoinColumns = {@JoinColumn(name = "variety_id")}
+    )
     private Set<Variety> varieties;
 
     public int getWineId()
