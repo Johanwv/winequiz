@@ -1,8 +1,10 @@
 package nl.wine.quiz.model;
 
 import nl.wine.quiz.model.enums.WineRegion;
+import nl.wine.quiz.model.enums.WineType;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Wine
@@ -17,6 +19,10 @@ public class Wine
     @Column
     @Enumerated(EnumType.STRING)
     private WineRegion wineRegion;
+
+    @ElementCollection
+    @Column
+    private List<WineType> wineTypes;
 
     public int getWineId()
     {
