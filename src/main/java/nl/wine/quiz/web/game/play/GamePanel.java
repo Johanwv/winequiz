@@ -1,6 +1,7 @@
 package nl.wine.quiz.web.game.play;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
+import nl.wine.quiz.model.enums.GameChoice;
 import nl.wine.quiz.service.PlayService;
 import nl.wine.quiz.util.ModelUtil;
 import nl.wine.quiz.web.game.start.StartGamePage;
@@ -30,12 +31,15 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
 
     private CopyOnWriteArrayList<MultipleChoiceQuestion> multipleChoiceQuestions;
 
-    public GamePanel(String id, IModel<List<MultipleChoiceQuestion>> multipleChoiceQuestionsModel)
+    private GameChoice gameChoice;
+
+    public GamePanel(String id, IModel<List<MultipleChoiceQuestion>> multipleChoiceQuestionsModel, GameChoice gameChoice)
     {
         super(id, multipleChoiceQuestionsModel);
+        this.gameChoice = gameChoice;
+        this.multipleChoiceQuestions = new CopyOnWriteArrayList<>(multipleChoiceQuestionsModel.getObject());
 
-        multipleChoiceQuestions = new CopyOnWriteArrayList<>(multipleChoiceQuestionsModel.getObject());
-        IModel model = ModelUtil.createModel(multipleChoiceQuestions.get(0));
+        IModel<MultipleChoiceQuestion> model = ModelUtil.createModel(multipleChoiceQuestions.get(0));
 
         questionForm = new Form<>("optionsForm", model);
         questionForm.setOutputMarkupId(true);
@@ -73,7 +77,21 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
     private void createQuestion(IModel model)
     {
         IModel questionModel = new PropertyModel(model, "question");
-        questionForm.add(new Label("question", new StringResourceModel("wine.question", this, questionModel)));
+        String resourceKey = getResourceKeyQuestion();
+        questionForm.add(new Label("question", new StringResourceModel(resourceKey, this, questionModel)));
+    }
+
+    private String getResourceKeyQuestion()
+    {
+        if (gameChoice.equals(GameChoice.REGION))
+        {
+            return "wine.region.question";
+        }
+        else if (gameChoice.equals(GameChoice.TYPE))
+        {
+            return "wine.type.question";
+        }
+        throw new IllegalStateException("No valid game choice: " + gameChoice);
     }
 
     private void createButtons(IModel model)
