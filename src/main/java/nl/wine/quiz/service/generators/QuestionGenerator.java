@@ -15,6 +15,8 @@ public abstract class QuestionGenerator
 {
     protected abstract Set<Option> createOptions(List<Wine> wines, Wine answer);
 
+    abstract boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine);
+
     public List<MultipleChoiceQuestion> createMultipleChoiceQuestions(List<Wine> wines)
     {
         List<MultipleChoiceQuestion> multipleChoiceQuestions = new ArrayList<>();
@@ -54,8 +56,6 @@ public abstract class QuestionGenerator
         }
         return optionWines;
     }
-
-    abstract boolean isValidOptionWine(Set<Wine> optionWines, Wine answer, Wine optionWine);
 
     Option createOption(String choice, boolean answer)
     {
