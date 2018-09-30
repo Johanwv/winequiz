@@ -51,10 +51,7 @@ public class ResetTables
             Query query = session.createSQLQuery(allTables);
             List<String> var = query.list();
 
-            for (String tableName : var)
-            {
-                dropStatements.add("DELETE FROM " + tableName);
-            }
+            var.forEach(tableName -> dropStatements.add("DELETE FROM " + tableName));
 
             dropStatements.add("ALTER SEQUENCE hibernate_sequence RESTART WITH 1");
             transaction.commit();

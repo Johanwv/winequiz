@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class CsvReaderAndDbFiller
@@ -29,7 +30,7 @@ public class CsvReaderAndDbFiller
         int i = 0;
 
         List<Wine> wines = new ArrayList<>();
-        List<Variety> varieties = new ArrayList<>();
+        Set<Variety> varieties = new HashSet<>();
 
         try
         {
@@ -46,17 +47,15 @@ public class CsvReaderAndDbFiller
                     String region = wine[1];
                     Wine newWine = WineUtil.createWine(name, region);
 
-                    String type = wine[3];
-                    Variety newVariety = VarietyUtil.createVarietie(type);
+                    Set<Variety> varietiesNewWine = createVarieties(wine);
 
-                    coupleWineAndVariety(newWine, newVariety);
+                    varietiesNewWine.forEach(varietyWine -> coupleWineAndVariety(newWine, determineVariety(varietyWine, varieties)));
 
                     wines.add(newWine);
-                    varieties.add(newVariety);
                 }
             }
             hibernateService.saveOrUpdateAll(wines);
-            hibernateService.saveOrUpdateAll(varieties);
+            hibernateService.saveOrUpdateAll(new ArrayList<>(varieties));
         }
         catch (FileNotFoundException e)
         {
@@ -80,6 +79,52 @@ public class CsvReaderAndDbFiller
                 }
             }
         }
+    }
+
+    private static Set<Variety> createVarieties(String[] wine)
+    {
+        Set<Variety> varietiesNewWine = new HashSet<>();
+
+        String type1 = wine[3];
+        Variety newVariety1 = VarietyUtil.createVarietie(type1);
+        varietiesNewWine.add(newVariety1);
+
+        if (wine.length > 4)
+        {
+            String type2 = wine[5];
+            Variety newVariety2 = VarietyUtil.createVarietie(type2);
+            varietiesNewWine.add(newVariety2);
+        }
+        if (wine.length > 6)
+        {
+            String type3 = wine[7];
+            Variety newVariety3 = VarietyUtil.createVarietie(type3);
+            varietiesNewWine.add(newVariety3);
+
+        }
+        if (wine.length > 8)
+        {
+            String type4 = wine[9];
+            Variety newVariety4 = VarietyUtil.createVarietie(type4);
+            varietiesNewWine.add(newVariety4);
+        }
+
+        return varietiesNewWine;
+    }
+
+    private static Variety determineVariety(Variety varietyWine, Set<Variety> varieties)
+    {
+        Optional<Variety> optionalVariety = varieties.stream().filter(v -> v.getWineType().equals(varietyWine.getWineType())).findFirst();
+        if (optionalVariety.isPresent())
+        {
+            return optionalVariety.get();
+        }
+        else
+        {
+            varieties.add(varietyWine);
+            return varietyWine;
+        }
+
     }
 
     public static void coupleWineAndVariety(Wine newWine, Variety newVariety)

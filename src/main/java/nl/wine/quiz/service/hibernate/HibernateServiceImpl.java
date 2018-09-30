@@ -1,6 +1,5 @@
 package nl.wine.quiz.service.hibernate;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -85,8 +84,8 @@ public class HibernateServiceImpl implements HibernateService
             session = getSession();
             session.beginTransaction();
 
-            Criteria criteria = session.createCriteria(entityType);
-            list = (List<T>) criteria.list();
+            String tableName = entityType.getTypeName().substring(entityType.getTypeName().lastIndexOf('.') + 1).trim();
+            list = session.createQuery("FROM " + tableName).list();
 
             commit(session);
             session.close();
