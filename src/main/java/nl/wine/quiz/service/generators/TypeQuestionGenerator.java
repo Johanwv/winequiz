@@ -1,9 +1,9 @@
 package nl.wine.quiz.service.generators;
 
-import com.sun.deploy.util.StringUtils;
 import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.model.Variety;
 import nl.wine.quiz.model.Wine;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.List;

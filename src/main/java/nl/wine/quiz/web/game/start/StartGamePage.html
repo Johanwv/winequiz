@@ -3,9 +3,17 @@
 <wicket:extend>
     <div>
         <form wicket:id="gameform">
-            <input type="button" class="btn btn-success pager btn-large" value="Start region"
-                   wicket:id="startRegionGame">
-            <input type="button" class="btn btn-success pager btn-large" value="Start type" wicket:id="startTypeGame">
+            <div class="row">
+                <div class="span12">
+                    <input type="button" class="btn btn-success pager btn-large" value="Start region"
+                           wicket:id="startRegionGame">
+
+                </div>
+                <div class="span12">
+                    <input type="button" class="btn btn-success pager btn-large" value="Start type"
+                           wicket:id="startTypeGame">
+                </div>
+            </div>
         </form>
     </div>
 </wicket:extend>
