@@ -14,11 +14,13 @@ import java.lang.management.ManagementFactory;
  * Separate startup class for people that want to run the examples directly. Use parameter
  * -Dcom.sun.management.jmxremote to startup JMX (and e.g. connect with jconsole).
  */
-public class Start {
+public class Start
+{
     /**
      * Main function, starts the jetty server.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         System.setProperty("wicket.configuration", "development");
 
         Server server = new Server();
@@ -29,7 +31,7 @@ public class Start {
         http_config.setOutputBufferSize(32768);
 
         ServerConnector http = new ServerConnector(server, new HttpConnectionFactory(http_config));
-        http.setPort(8080);
+        http.setPort(8081);
         http.setIdleTimeout(1000 * 60 * 60);
 
         server.addConnector(http);
@@ -55,10 +57,13 @@ public class Start {
         server.addEventListener(mBeanContainer);
         server.addBean(mBeanContainer);
 
-        try {
+        try
+        {
             server.start();
             server.join();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             System.exit(100);
         }

@@ -37,7 +37,9 @@
             </Array>
           </Arg>
           <Set name="host"><Property name="jetty.host" /></Set>
-          <Set name="port"><Property name="jetty.https.port" default="8080" /></Set>
+        <Set name="port">
+          <Property name="jetty.https.port" default="8081"/>
+        </Set>
           <Set name="idleTimeout">30000</Set>
         </New>
     </Arg>

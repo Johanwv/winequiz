@@ -7,13 +7,16 @@ import nl.wine.quiz.web.game.play.TypeGamePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.StringResourceModel;
 
 public class StartGamePage extends BaseWineQuizPage
 {
     public StartGamePage()
     {
         Form<Void> form = new Form<>("gameform");
-        form.add(new AjaxButton("startRegionGame")
+
+
+        form.add(new AjaxButton("startRegionGame", new StringResourceModel("start.region"))
         {
             @Override
             protected void onSubmit(AjaxRequestTarget target)
@@ -21,7 +24,7 @@ public class StartGamePage extends BaseWineQuizPage
                 setResponsePage(RegionGamePage.class);
             }
         });
-        form.add(new AjaxButton("startTypeGame")
+        form.add(new AjaxButton("startTypeGame", new StringResourceModel("start.type"))
         {
             @Override
             protected void onSubmit(AjaxRequestTarget target)
