@@ -12,10 +12,14 @@ import java.util.List;
 @Repository
 public class HibernateServiceImpl implements HibernateService
 {
-    private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+    private SessionFactory sessionFactory = getSessionFactory();
 
     public SessionFactory getSessionFactory()
     {
+        if (sessionFactory == null)
+        {
+            return new Configuration().configure().buildSessionFactory();
+        }
         return sessionFactory;
     }
 

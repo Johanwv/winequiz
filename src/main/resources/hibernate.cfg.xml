@@ -13,7 +13,7 @@
 
         <property name="connection.url">jdbc:postgresql://localhost:5432/winequiz</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
-        <property name="hibernate.connection.username">postgres</property> <!-- DB User -->
+        <property name="hibernate.connection.username">postgres</property> <!-- DB Player -->
         <property name="hibernate.connection.password">postgres</property> <!-- DB Password -->
 
         <!-- JDBC connection pool (use the built-in) -->
@@ -32,11 +32,13 @@
         <property name="show_sql">true</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create-drop</property>
 
         <!-- Name object classes -->
         <mapping class="nl.wine.quiz.model.Wine"/>
         <mapping class="nl.wine.quiz.model.Variety"/>
+        <mapping class="nl.wine.quiz.model.Player"/>
+        <mapping class="nl.wine.quiz.model.GameResult"/>
 
 
     </session-factory>
