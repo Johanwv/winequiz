@@ -2,6 +2,7 @@ package nl.wine.quiz.web.game.play;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
 import nl.wine.quiz.model.enums.GameChoice;
+import nl.wine.quiz.model.enums.OptionId;
 import nl.wine.quiz.service.PlayService;
 import nl.wine.quiz.util.ModelUtil;
 import nl.wine.quiz.web.game.start.StartGamePage;
@@ -110,7 +111,7 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
             @Override
             protected void onSubmit(AjaxRequestTarget target)
             {
-                score += playService.isCorrect(questionForm.getModelObject(), this.getId()) ? 1 : 0;
+                score += playService.isCorrect(questionForm.getModelObject(), OptionId.getOptionId(this.getId())) ? 1 : 0;
                 determineNextStep(target);
             }
         };

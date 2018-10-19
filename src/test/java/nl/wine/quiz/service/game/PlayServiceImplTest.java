@@ -1,6 +1,7 @@
 package nl.wine.quiz.service.game;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
+import nl.wine.quiz.model.enums.OptionId;
 import nl.wine.quiz.service.PlayService;
 import nl.wine.quiz.util.MultipleChoiceQuestionFactory;
 import org.junit.Assert;
@@ -22,35 +23,27 @@ public class PlayServiceImplTest
     {
         MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestionFactory.createCompleteMultipleChoiceQuestionAnswerOptionA();
 
-        Assert.assertTrue(playService.isCorrect(multipleChoiceQuestion, "optionA"));
-        Assert.assertFalse(playService.isCorrect(multipleChoiceQuestion, "optionB"));
-        Assert.assertFalse(playService.isCorrect(multipleChoiceQuestion, "optionC"));
-        Assert.assertFalse(playService.isCorrect(multipleChoiceQuestion, "optionD"));
+        Assert.assertTrue(playService.isCorrect(multipleChoiceQuestion, OptionId.OPTION_A));
+        Assert.assertFalse(playService.isCorrect(multipleChoiceQuestion, OptionId.OPTION_B));
+        Assert.assertFalse(playService.isCorrect(multipleChoiceQuestion, OptionId.OPTION_C));
+        Assert.assertFalse(playService.isCorrect(multipleChoiceQuestion, OptionId.OPTION_D));
     }
 
 
     @Test
     public void isRightAnswerCorrectTest()
     {
-        MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestionFactory.createMultipleChoiceQuestionAnswer("optionA");
+        MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestionFactory.createMultipleChoiceQuestionAnswer(OptionId.OPTION_A);
 
-        Assert.assertTrue(playService.isCorrect(multipleChoiceQuestion, "optionA"));
+        Assert.assertTrue(playService.isCorrect(multipleChoiceQuestion, OptionId.OPTION_A));
     }
 
     @Test
     public void isWrongAnswerIncorrectTest()
     {
-        MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestionFactory.createMultipleChoiceQuestionWrongOption("optionB");
+        MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestionFactory.createMultipleChoiceQuestionWrongOption(OptionId.OPTION_B);
 
-        Assert.assertFalse(playService.isCorrect(multipleChoiceQuestion, "optionB"));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void validateExceptionTest()
-    {
-        MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestionFactory.createMultipleChoiceQuestionAnswer("optionA");
-
-        Assert.assertTrue(playService.isCorrect(multipleChoiceQuestion, "optionE"));
+        Assert.assertFalse(playService.isCorrect(multipleChoiceQuestion, OptionId.OPTION_B));
     }
 
 }

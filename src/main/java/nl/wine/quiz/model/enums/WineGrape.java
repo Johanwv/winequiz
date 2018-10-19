@@ -14,6 +14,6 @@ public enum WineGrape implements IName
     @Override
     public String getName()
     {
-        return null;
+        return name;
     }
 }

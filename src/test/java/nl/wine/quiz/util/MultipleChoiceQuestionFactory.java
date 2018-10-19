@@ -2,6 +2,7 @@ package nl.wine.quiz.util;
 
 import nl.wine.quiz.dto.MultipleChoiceQuestion;
 import nl.wine.quiz.dto.Option;
+import nl.wine.quiz.model.enums.OptionId;
 
 public class MultipleChoiceQuestionFactory
 {
@@ -10,21 +11,21 @@ public class MultipleChoiceQuestionFactory
         MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion();
 
         Option answer = OptionFactory.createAnswer();
-        setOption(multipleChoiceQuestion, "optionA", answer);
+        setOption(multipleChoiceQuestion, OptionId.OPTION_A, answer);
 
         Option wrongOptionB = OptionFactory.createWrongOption();
-        setOption(multipleChoiceQuestion, "optionB", wrongOptionB);
+        setOption(multipleChoiceQuestion, OptionId.OPTION_B, wrongOptionB);
 
         Option wrongOptionC = OptionFactory.createWrongOption();
-        setOption(multipleChoiceQuestion, "optionC", wrongOptionC);
+        setOption(multipleChoiceQuestion, OptionId.OPTION_C, wrongOptionC);
 
         Option wrongOptionD = OptionFactory.createWrongOption();
-        setOption(multipleChoiceQuestion, "optionD", wrongOptionD);
+        setOption(multipleChoiceQuestion, OptionId.OPTION_D, wrongOptionD);
 
         return multipleChoiceQuestion;
     }
 
-    public static MultipleChoiceQuestion createMultipleChoiceQuestionAnswer(String answerOption)
+    public static MultipleChoiceQuestion createMultipleChoiceQuestionAnswer(OptionId answerOption)
     {
         MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion();
 
@@ -34,7 +35,7 @@ public class MultipleChoiceQuestionFactory
         return multipleChoiceQuestion;
     }
 
-    public static MultipleChoiceQuestion createMultipleChoiceQuestionWrongOption(String answerOption)
+    public static MultipleChoiceQuestion createMultipleChoiceQuestionWrongOption(OptionId answerOption)
     {
         MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion();
 
@@ -44,20 +45,20 @@ public class MultipleChoiceQuestionFactory
         return multipleChoiceQuestion;
     }
 
-    private static void setOption(MultipleChoiceQuestion multipleChoiceQuestion, String answerOption, Option option)
+    private static void setOption(MultipleChoiceQuestion multipleChoiceQuestion, OptionId answerOption, Option option)
     {
         switch (answerOption)
         {
-            case "optionA":
+            case OPTION_A:
                 multipleChoiceQuestion.setOptionA(option);
                 break;
-            case "optionB":
+            case OPTION_B:
                 multipleChoiceQuestion.setOptionB(option);
                 break;
-            case "optionC":
+            case OPTION_C:
                 multipleChoiceQuestion.setOptionC(option);
                 break;
-            case "optionD":
+            case OPTION_D:
                 multipleChoiceQuestion.setOptionD(option);
                 break;
         }
