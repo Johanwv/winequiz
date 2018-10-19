@@ -1,6 +1,7 @@
 package nl.wine.quiz.filldb;
 
 import nl.wine.quiz.filldb.csv.CsvReaderAndDbFiller;
+import nl.wine.quiz.filldb.game.PlayerFiller;
 import nl.wine.quiz.service.hibernate.HibernateService;
 import nl.wine.quiz.service.hibernate.HibernateServiceImpl;
 
@@ -19,6 +20,7 @@ public class WineQuizFillDB
         ResetTables.resetTables(hibernateService.getSession());
 
         CsvReaderAndDbFiller.readFileAndCreateWines(hibernateService);
+        PlayerFiller.fillPlayer(hibernateService);
     }
 
 }
