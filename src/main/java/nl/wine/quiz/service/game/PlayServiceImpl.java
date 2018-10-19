@@ -24,11 +24,11 @@ public class PlayServiceImpl implements PlayService
             case "optionA":
                 return multipleChoiceQuestion.getOptionA();
             case "optionB":
-                return multipleChoiceQuestion.getOptionA();
+                return multipleChoiceQuestion.getOptionB();
             case "optionC":
-                return multipleChoiceQuestion.getOptionA();
+                return multipleChoiceQuestion.getOptionC();
             case "optionD":
-                return multipleChoiceQuestion.getOptionA();
+                return multipleChoiceQuestion.getOptionD();
             default:
                 throw new IllegalArgumentException("Invalid choice: " + choice);
         }
