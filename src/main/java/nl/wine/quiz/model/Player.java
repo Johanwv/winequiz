@@ -14,10 +14,34 @@ public class Player
     @GeneratedValue
     private int userId;
 
-    @Column
+    @Column(unique = true)
     private String name;
 
     @Column
     private String password;
 
+    public int getUserId()
+    {
+        return userId;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
 }

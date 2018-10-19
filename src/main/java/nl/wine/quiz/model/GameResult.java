@@ -24,4 +24,38 @@ public class GameResult
     @Column(nullable = false)
     private int numberOfTimesWrong;
 
+    public void setGameResultId(int gameResultId)
+    {
+        this.gameResultId = gameResultId;
+    }
+
+    public Player getPlayer()
+    {
+        return player;
+    }
+
+    public void setPlayer(Player player)
+    {
+        this.player = player;
+    }
+
+    public Wine getWine()
+    {
+        return wine;
+    }
+
+    public void setWine(Wine wine)
+    {
+        this.wine = wine;
+    }
+
+    public int getNumberOfTimesWrong()
+    {
+        return numberOfTimesWrong;
+    }
+
+    public void setNumberOfTimesWrong(int numberOfTimesWrong)
+    {
+        this.numberOfTimesWrong = numberOfTimesWrong;
+    }
 }
