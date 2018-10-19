@@ -13,15 +13,15 @@ public class GameFactoryImpl implements GameFactory
     @Override
     public QuestionGenerator createQuestionGenerator(GameChoice gameChoice)
     {
-        if (gameChoice.equals(GameChoice.REGION))
+        if (GameChoice.REGION.equals(gameChoice))
         {
             return new RegionQuestionGenerator();
         }
-        else if (gameChoice.equals(GameChoice.TYPE))
+        else if (GameChoice.TYPE.equals(gameChoice))
         {
             return new TypeQuestionGenerator();
         }
-        else if (gameChoice.equals(GameChoice.GRAPE))
+        else if (GameChoice.GRAPE.equals(gameChoice))
         {
             return new GrapeQuestionGenerator();
         }
