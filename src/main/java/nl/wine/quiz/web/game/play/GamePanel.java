@@ -94,7 +94,7 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         throw new IllegalStateException("No valid game choice: " + gameChoice);
     }
 
-    private void createButtons(IModel model)
+    private void createButtons(IModel<MultipleChoiceQuestion> model)
     {
         questionForm.add(getOptionButton("optionA", model));
         questionForm.add(getOptionButton("optionB", model));
@@ -102,22 +102,22 @@ public class GamePanel extends GenericPanel<List<MultipleChoiceQuestion>>
         questionForm.add(getOptionButton("optionD", model));
     }
 
-    private AjaxButton getOptionButton(String id, IModel model)
+    private AjaxButton getOptionButton(String id, IModel<MultipleChoiceQuestion> model)
     {
-        IModel propertyModel = new PropertyModel<>(model, id + ".choice");
+        IModel<String> propertyModel = new PropertyModel<>(model, id + ".choice");
         return new AjaxButton(id, propertyModel)
         {
             @Override
             protected void onSubmit(AjaxRequestTarget target)
             {
-                determineNextStep(target, getModelObject());
+                score += playService.isCorrect(questionForm.getModelObject(), this.getId()) ? 1 : 0;
+                determineNextStep(target);
             }
         };
     }
 
-    private void determineNextStep(AjaxRequestTarget target, String choice)
+    private void determineNextStep(AjaxRequestTarget target)
     {
-        score += playService.isCorrect(choice, questionForm.getModelObject());
         if (playService.isAnotherQuestion(++counter, getModelObject()))
         {
             displayNextQuestion(target);

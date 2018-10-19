@@ -2,8 +2,14 @@ package nl.wine.quiz.filldb;
 
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.cfgxml.spi.CfgXmlAccessService;
+import org.hibernate.boot.spi.SessionFactoryOptions;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.query.Query;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.spi.SessionFactoryServiceRegistryFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,35 +19,61 @@ public class ResetTables
     public static void resetTables(Session session)
     {
         List<String> dropStatements = readResetSql(session);
-        drop(session, dropStatements);
+        executeDropStatements(session, dropStatements);
 
     }
 
-    private static void drop(Session session, List<String> dropStatements)
+    private static void executeDropStatements(Session session, List<String> dropStatements)
     {
+        List<String> notDroppedStatements = new ArrayList<>();
         session = session.getSessionFactory().openSession();
+
+        drop(session, dropStatements, notDroppedStatements);
+
+        dropStatements = notDroppedStatements;
+        notDroppedStatements = new ArrayList<>();
+
+        drop(session, dropStatements, notDroppedStatements);
+
+        if (notDroppedStatements.size() > 0)
+        {
+            throw new IllegalStateException("Not succesfully deleted all records: " + notDroppedStatements.toString());
+        }
+
+        session.close();
+    }
+
+    private static void drop(Session session, List<String> dropStatements, List<String> notDroppedStatements)
+    {
+        Transaction transaction = null;
         for (String dropStatement : dropStatements)
         {
             try
             {
-                Transaction transaction = session.beginTransaction();
-
+                transaction = session.beginTransaction();
                 Query query = session.createSQLQuery(dropStatement);
                 query.executeUpdate();
-
                 transaction.commit();
-
             }
             catch (Exception e)
             {
+                notDroppedStatements.add(dropStatement);
                 System.out.println("Error while dropping tables " + e);
+                transaction.rollback();
             }
         }
-        session.close();
     }
 
     private static List<String> readResetSql(Session session)
     {
+        SessionFactory sessionFactory = session.getSessionFactory();
+        SessionFactoryOptions options = sessionFactory.getSessionFactoryOptions();
+        ServiceRegistry serviceRegistry = options.getServiceRegistry()
+                .getService(SessionFactoryServiceRegistryFactory.class)
+                .buildServiceRegistry((SessionFactoryImplementor) sessionFactory, options);
+
+        CfgXmlAccessService cfgXmlAccessService = serviceRegistry.getService(CfgXmlAccessService.class);
+
         ArrayList<String> dropStatements = new ArrayList<>();
 
         try
@@ -59,7 +91,7 @@ public class ResetTables
         }
         catch (Exception e)
         {
-            System.out.print("Error while creating drop statements for tables " + e);
+            System.out.print("Error while creating executeDropStatements statements for tables " + e);
         }
         return dropStatements;
     }

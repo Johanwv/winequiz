@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PlayService extends Serializable
 {
-    int isCorrect(String choice, MultipleChoiceQuestion multipleChoiceQuestion);
+    boolean isCorrect(MultipleChoiceQuestion multipleChoiceQuestion, String choice);
 
     boolean isAnotherQuestion(int counter, List<MultipleChoiceQuestion> questions);
 }

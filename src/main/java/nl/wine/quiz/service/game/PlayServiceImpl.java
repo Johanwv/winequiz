@@ -5,39 +5,37 @@ import nl.wine.quiz.dto.Option;
 import nl.wine.quiz.service.PlayService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlayServiceImpl implements PlayService
 {
-    public int isCorrect(String choice, MultipleChoiceQuestion multipleChoiceQuestion)
+    public boolean isCorrect(MultipleChoiceQuestion multipleChoiceQuestion, String choice)
     {
-        Optional<String> answer = determineAnswer(multipleChoiceQuestion);
+        Option chosenOption = getChoice(multipleChoiceQuestion, choice);
 
-        return (answer.isPresent() && answer.get().equals(choice)) ? 1 : 0;
+        return chosenOption.isAnswer();
+    }
+
+    private Option getChoice(MultipleChoiceQuestion multipleChoiceQuestion, String choice)
+    {
+        switch (choice)
+        {
+            case "optionA":
+                return multipleChoiceQuestion.getOptionA();
+            case "optionB":
+                return multipleChoiceQuestion.getOptionA();
+            case "optionC":
+                return multipleChoiceQuestion.getOptionA();
+            case "optionD":
+                return multipleChoiceQuestion.getOptionA();
+            default:
+                throw new IllegalArgumentException("Invalid choice: " + choice);
+        }
     }
 
     public boolean isAnotherQuestion(int counter, List<MultipleChoiceQuestion> questions)
     {
         return counter < questions.size();
-    }
-
-
-    private Optional<String> determineAnswer(MultipleChoiceQuestion multipleChoiceQuestion)
-    {
-        List<Option> options = makeListOfOptions(multipleChoiceQuestion);
-        return options.stream().filter(Option::isAnswer).map(Option::getChoice).findFirst();
-    }
-
-    private List<Option> makeListOfOptions(MultipleChoiceQuestion multipleChoiceQuestion)
-    {
-        List<Option> options = new ArrayList<>();
-        options.add(multipleChoiceQuestion.getOptionA());
-        options.add(multipleChoiceQuestion.getOptionB());
-        options.add(multipleChoiceQuestion.getOptionC());
-        options.add(multipleChoiceQuestion.getOptionD());
-        return options;
     }
 }
