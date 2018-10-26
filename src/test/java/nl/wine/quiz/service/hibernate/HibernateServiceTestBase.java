@@ -1,11 +1,11 @@
-package nl.wine.quiz.service;
+package nl.wine.quiz.service.hibernate;
 
-import nl.wine.quiz.service.hibernate.HibernateService;
-import nl.wine.quiz.service.hibernate.HibernateServiceImpl;
-import nl.wine.quiz.service.hibernate.HibernateSessionFactory;
+import nl.wine.quiz.model.Player;
 import org.hibernate.Session;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -29,25 +29,35 @@ public class HibernateServiceTestBase
     @InjectMocks
     protected HibernateService hibernateService = new HibernateServiceImpl();
 
-    @Before
-    public void setUp()
+    @BeforeClass
+    public static void init()
     {
         entityManagerFactory = Persistence.createEntityManagerFactory("thePersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
         assertNotNull(entityManager);
+    }
 
+    @Before
+    public void setUp()
+    {
         MockitoAnnotations.initMocks(this);
         Mockito.when(sessionFactory.getSession()).thenReturn(entityManager.unwrap(Session.class));
         Mockito.when(sessionFactory.getEntityManager()).thenReturn(entityManager);
         Mockito.doNothing().when(sessionFactory).closeSession(entityManager.unwrap(Session.class));
     }
 
-    @After
-    public void rollBack()
+    @AfterClass
+    public static void tearDown()
     {
         entityManager.clear();
         entityManager.close();
         entityManagerFactory.close();
+    }
+
+    @After
+    public void afterTest() throws Throwable
+    {
+        hibernateService.deleteAll(hibernateService.getAll(Player.class));
     }
 
 }

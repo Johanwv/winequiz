@@ -1,7 +1,7 @@
 package nl.wine.quiz.service.hibernate;
 
 import nl.wine.quiz.model.Player;
-import nl.wine.quiz.service.HibernateServiceTestBase;
+import nl.wine.quiz.util.PlayerUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,25 +16,21 @@ public class HibernateServiceImplTest extends HibernateServiceTestBase
     @Test
     public void saveOrUpdatePlayerTest() throws Throwable
     {
-        Player player = new Player();
-        player.setName("Johan");
+        Player player = PlayerUtil.getPlayer("Johan");
 
         hibernateService.saveOrUpdate(player);
 
-        Player p = hibernateService.get(Player.class, 1);
+        Player p = hibernateService.get(Player.class, player.getPlayerId());
         assertNotNull(p);
         Assert.assertEquals("Johan", p.getName());
     }
 
-
     @Test(expected = PersistenceException.class)
     public void uniqueConstraintPlayerNameTest() throws Throwable
     {
-        Player player = new Player();
-        player.setName("Johan");
+        Player player = PlayerUtil.getPlayer("Johan");
 
-        Player player2 = new Player();
-        player2.setName("Johan");
+        Player player2 = PlayerUtil.getPlayer("Johan");
 
         hibernateService.saveOrUpdate(player);
 
@@ -44,12 +40,11 @@ public class HibernateServiceImplTest extends HibernateServiceTestBase
     @Test
     public void deleteTest() throws Throwable
     {
-        Player player = new Player();
-        player.setName("Johan");
+        Player player = PlayerUtil.getPlayer("Johan");
 
         hibernateService.saveOrUpdate(player);
 
-        Player p = hibernateService.get(Player.class, 1);
+        Player p = hibernateService.get(Player.class, player.getPlayerId());
         assertNotNull(p);
         Assert.assertEquals("Johan", p.getName());
 
@@ -63,13 +58,10 @@ public class HibernateServiceImplTest extends HibernateServiceTestBase
     @Test
     public void getAllPlayerTest() throws Throwable
     {
-        Player player = new Player();
-        player.setName("Johan");
-
+        Player player = PlayerUtil.getPlayer("Johan");
         hibernateService.saveOrUpdate(player);
 
-        Player player2 = new Player();
-        player2.setName("Johan1");
+        Player player2 = PlayerUtil.getPlayer("Johan1");
         hibernateService.saveOrUpdate(player2);
 
         List<Player> p = hibernateService.getAll(Player.class);
