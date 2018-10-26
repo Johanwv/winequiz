@@ -1,8 +1,7 @@
 package nl.wine.quiz.service.hibernate;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
@@ -12,21 +11,8 @@ import java.util.List;
 @Repository
 public class HibernateServiceImpl implements HibernateService
 {
-    private SessionFactory sessionFactory = getSessionFactory();
-
-    public SessionFactory getSessionFactory()
-    {
-        if (sessionFactory == null)
-        {
-            return new Configuration().configure().buildSessionFactory();
-        }
-        return sessionFactory;
-    }
-
-    public Session getSession()
-    {
-        return sessionFactory.getCurrentSession();
-    }
+    @Autowired
+    private HibernateSessionFactory sessionFactory;
 
     @Override
     public void saveOrUpdate(Object object)
@@ -34,12 +20,12 @@ public class HibernateServiceImpl implements HibernateService
         Session session = null;
         try
         {
-            session = getSession();
+            session = sessionFactory.getSession();
             session.beginTransaction();
             session.saveOrUpdate(object);
 
             commit(session);
-            session.close();
+            sessionFactory.closeSession(session);
         }
         catch (Exception e)
         {
@@ -54,7 +40,7 @@ public class HibernateServiceImpl implements HibernateService
         Session session = null;
         try
         {
-            session = getSession();
+            session = sessionFactory.getSession();
             session.beginTransaction();
 
             for (Object object : objects)
@@ -63,7 +49,7 @@ public class HibernateServiceImpl implements HibernateService
             }
 
             commit(session);
-            session.close();
+            sessionFactory.closeSession(session);
         }
         catch (Exception e)
         {
@@ -75,7 +61,7 @@ public class HibernateServiceImpl implements HibernateService
     @Override
     public <T> T get(Class<T> entityType, Serializable id)
     {
-        return getSession().get(entityType, id);
+        return sessionFactory.getSession().get(entityType, id);
     }
 
     @Override
@@ -85,14 +71,14 @@ public class HibernateServiceImpl implements HibernateService
         List<T> list = new ArrayList<>();
         try
         {
-            session = getSession();
+            session = sessionFactory.getSession();
             session.beginTransaction();
 
             String tableName = entityType.getTypeName().substring(entityType.getTypeName().lastIndexOf('.') + 1).trim();
             list = session.createQuery("FROM " + tableName).list();
 
             commit(session);
-            session.close();
+            sessionFactory.closeSession(session);
         }
         catch (Exception e)
         {

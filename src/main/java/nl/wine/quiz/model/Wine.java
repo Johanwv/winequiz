@@ -27,7 +27,7 @@ public class Wine
     @Column(nullable = false)
     private String wineName;
 
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private WineRegion wineRegion;
 

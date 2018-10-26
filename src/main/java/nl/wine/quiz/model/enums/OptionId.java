@@ -17,6 +17,12 @@ public enum OptionId implements IName
         this.name = name;
     }
 
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
     public static OptionId getOptionId(String option)
     {
         if (OPTION_A.getName().equals(option))
@@ -38,9 +44,4 @@ public enum OptionId implements IName
         throw new IllegalArgumentException("Not a valid option: " + option);
     }
 
-    @Override
-    public String getName()
-    {
-        return name;
-    }
 }

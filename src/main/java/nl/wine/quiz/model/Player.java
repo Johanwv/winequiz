@@ -14,13 +14,13 @@ public class Player
     @GeneratedValue
     private int userId;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Column
     private String password;
 
-    public int getUserId()
+    public int getPlayerId()
     {
         return userId;
     }

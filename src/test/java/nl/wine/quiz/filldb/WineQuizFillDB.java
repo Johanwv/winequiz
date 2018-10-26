@@ -4,10 +4,14 @@ import nl.wine.quiz.filldb.csv.CsvReaderAndDbFiller;
 import nl.wine.quiz.filldb.game.PlayerFiller;
 import nl.wine.quiz.service.hibernate.HibernateService;
 import nl.wine.quiz.service.hibernate.HibernateServiceImpl;
+import nl.wine.quiz.service.hibernate.HibernateSessionFactory;
+import nl.wine.quiz.service.hibernate.HibernateSessionFactoryImpl;
 
 public class WineQuizFillDB
 {
     private HibernateService hibernateService = new HibernateServiceImpl();
+
+    private HibernateSessionFactory sessionFactory = new HibernateSessionFactoryImpl();
 
     public static void main(String[] args)
     {
@@ -17,7 +21,7 @@ public class WineQuizFillDB
 
     private void resetAndFillDb()
     {
-        ResetTables.resetTables(hibernateService.getSession());
+        ResetTables.resetTables(sessionFactory.getSession());
 
         CsvReaderAndDbFiller.readFileAndCreateWines(hibernateService);
         PlayerFiller.fillPlayer(hibernateService);
