@@ -12,6 +12,7 @@ build/
 *.json
 
 .idea/
+db/
 *.class
 out/
 target/

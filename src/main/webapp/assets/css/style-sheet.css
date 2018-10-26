@@ -11,8 +11,12 @@
     background-size: cover;
 }
 
-.score {
+.right {
     text-align: right;
+}
+
+.left {
+    text-align: left;
 }
 
 .black-text {
@@ -36,4 +40,12 @@
 
 .container-fluid {
     padding-top: 20px !important;
+}
+
+.vertical-center {
+    min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+
+    display: flex;
+    align-items: center;
 }

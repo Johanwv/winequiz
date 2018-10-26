@@ -1,6 +1,6 @@
 package nl.wine.quiz.web;
 
-import nl.wine.quiz.web.game.start.StartGamePage;
+import nl.wine.quiz.web.login.LoginPage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -21,7 +21,7 @@ public class WineQuizApplication extends WebApplication
     @Override
     public Class<? extends WebPage> getHomePage()
     {
-        return StartGamePage.class;
+        return LoginPage.class;
     }
 
     /**
