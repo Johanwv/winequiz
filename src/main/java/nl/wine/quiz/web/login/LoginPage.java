@@ -9,9 +9,18 @@ public class LoginPage extends BaseWineQuizPage
 {
     public LoginPage()
     {
-        Form form = new Form("loginForm");
-
         TextField<String> username = new TextField<>("username", Model.of(""));
+
+        Form<?> form = new Form<Void>("form")
+        {
+            @Override
+            protected void onSubmit()
+            {
+                final String usernameValue = username.getModelObject();
+//                setResponsePage(StartGamePage.class);
+            }
+        };
+
         form.add(username);
 
         add(form);
