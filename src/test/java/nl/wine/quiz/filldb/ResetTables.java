@@ -2,14 +2,8 @@ package nl.wine.quiz.filldb;
 
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.cfgxml.spi.CfgXmlAccessService;
-import org.hibernate.boot.spi.SessionFactoryOptions;
-import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.query.Query;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.spi.SessionFactoryServiceRegistryFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,14 +60,6 @@ public class ResetTables
 
     private static List<String> readResetSql(Session session)
     {
-        SessionFactory sessionFactory = session.getSessionFactory();
-        SessionFactoryOptions options = sessionFactory.getSessionFactoryOptions();
-        ServiceRegistry serviceRegistry = options.getServiceRegistry()
-                .getService(SessionFactoryServiceRegistryFactory.class)
-                .buildServiceRegistry((SessionFactoryImplementor) sessionFactory, options);
-
-        CfgXmlAccessService cfgXmlAccessService = serviceRegistry.getService(CfgXmlAccessService.class);
-
         ArrayList<String> dropStatements = new ArrayList<>();
 
         try

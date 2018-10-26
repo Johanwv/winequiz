@@ -24,7 +24,14 @@ public class WineQuizFillDB
         ResetTables.resetTables(sessionFactory.getSession());
 
         CsvReaderAndDbFiller.readFileAndCreateWines(hibernateService);
-        PlayerFiller.fillPlayer(hibernateService);
+        try
+        {
+            PlayerFiller.fillPlayer(hibernateService);
+        }
+        catch (Throwable throwable)
+        {
+            throwable.printStackTrace();
+        }
     }
 
 }

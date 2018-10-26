@@ -7,7 +7,6 @@ import nl.wine.quiz.util.VarietyUtil;
 import nl.wine.quiz.util.WineUtil;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,11 +56,7 @@ public class CsvReaderAndDbFiller
             hibernateService.saveOrUpdateAll(wines);
             hibernateService.saveOrUpdateAll(new ArrayList<>(varieties));
         }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
+        catch (Throwable e)
         {
             e.printStackTrace();
         }

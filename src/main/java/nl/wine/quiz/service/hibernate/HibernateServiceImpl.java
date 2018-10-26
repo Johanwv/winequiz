@@ -4,8 +4,12 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -15,47 +19,28 @@ public class HibernateServiceImpl implements HibernateService
     private HibernateSessionFactory sessionFactory;
 
     @Override
-    public void saveOrUpdate(Object object)
+    public void saveOrUpdate(Object object) throws Throwable
     {
-        Session session = null;
-        try
-        {
-            session = sessionFactory.getSession();
-            session.beginTransaction();
-            session.saveOrUpdate(object);
+        execute(session -> session.saveOrUpdate(object));
+    }
 
-            commit(session);
-            sessionFactory.closeSession(session);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-            rollBack(session);
-        }
+
+    @Override
+    public <T> void saveOrUpdateAll(List<T> objects) throws Throwable
+    {
+        execute(session -> objects.forEach(session::saveOrUpdate));
     }
 
     @Override
-    public <T> void saveOrUpdateAll(List<T> objects)
+    public void delete(Object object) throws Throwable
     {
-        Session session = null;
-        try
-        {
-            session = sessionFactory.getSession();
-            session.beginTransaction();
+        execute(session -> session.delete(object));
+    }
 
-            for (Object object : objects)
-            {
-                session.saveOrUpdate(object);
-            }
-
-            commit(session);
-            sessionFactory.closeSession(session);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-            rollBack(session);
-        }
+    @Override
+    public <T> void deleteAll(List<T> objects) throws Throwable
+    {
+        execute(session -> objects.forEach(session::delete));
     }
 
     @Override
@@ -67,25 +52,51 @@ public class HibernateServiceImpl implements HibernateService
     @Override
     public <T> List<T> getAll(Class<T> entityType)
     {
+        EntityManager entityManager = sessionFactory.getEntityManager();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> q = cb.createQuery(entityType);
+        Root<T> c = q.from(entityType);
+        q.select(c);
+        TypedQuery<T> tq = entityManager.createQuery(q);
+
+        return tq.getResultList();
+    }
+
+    private void execute(HibernateCommand action) throws Throwable
+    {
         Session session = null;
-        List<T> list = new ArrayList<>();
         try
         {
-            session = sessionFactory.getSession();
-            session.beginTransaction();
+            session = setUpTranscaction();
 
-            String tableName = entityType.getTypeName().substring(entityType.getTypeName().lastIndexOf('.') + 1).trim();
-            list = session.createQuery("FROM " + tableName).list();
+            action.execute(session);
 
-            commit(session);
-            sessionFactory.closeSession(session);
+            afterTransaction(session);
         }
         catch (Exception e)
         {
-            System.out.println(e);
-            rollBack(session);
+            doWhenExceptionThrown(session, e);
         }
-        return list;
+    }
+
+    private Session setUpTranscaction()
+    {
+        Session session;
+        session = sessionFactory.getSession();
+        session.beginTransaction();
+        return session;
+    }
+
+    private void afterTransaction(Session session)
+    {
+        commit(session);
+        sessionFactory.closeSession(session);
+    }
+
+    private void doWhenExceptionThrown(Session session, Exception e) throws Throwable
+    {
+        rollBack(session);
+        throw e.getCause();
     }
 
     private void commit(Session session)

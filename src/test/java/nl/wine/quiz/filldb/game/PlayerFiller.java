@@ -6,7 +6,7 @@ import nl.wine.quiz.service.hibernate.HibernateService;
 public class PlayerFiller
 {
 
-    public static void fillPlayer(HibernateService hibernateService)
+    public static void fillPlayer(HibernateService hibernateService) throws Throwable
     {
         Player player1 = createPlayer("Johan");
         hibernateService.saveOrUpdate(player1);

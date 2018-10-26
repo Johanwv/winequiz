@@ -1,35 +1,34 @@
 package nl.wine.quiz.service.hibernate;
 
 import nl.wine.quiz.model.Player;
-import nl.wine.quiz.service.DbBase;
-import org.hibernate.Session;
-import org.junit.Before;
+import nl.wine.quiz.service.HibernateServiceTestBase;
+import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+
+import javax.persistence.PersistenceException;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-public class HibernateServiceImplTest extends DbBase
+public class HibernateServiceImplTest extends HibernateServiceTestBase
 {
-    @Mock
-    HibernateSessionFactory sessionFactory;
-
-    @InjectMocks
-    HibernateService hibernateService = new HibernateServiceImpl();
-
-    @Before
-    public void setUp()
-    {
-        MockitoAnnotations.initMocks(this);
-        Mockito.when(sessionFactory.getSession()).thenReturn(entityManager.unwrap(Session.class));
-        Mockito.doNothing().when(sessionFactory).closeSession(entityManager.unwrap(Session.class));
-    }
 
     @Test
-    public void test2()
+    public void saveOrUpdatePlayerTest() throws Throwable
+    {
+        Player player = new Player();
+        player.setName("Johan");
+
+        hibernateService.saveOrUpdate(player);
+
+        Player p = hibernateService.get(Player.class, 1);
+        assertNotNull(p);
+        Assert.assertEquals("Johan", p.getName());
+    }
+
+
+    @Test(expected = PersistenceException.class)
+    public void uniqueConstraintPlayerNameTest() throws Throwable
     {
         Player player = new Player();
         player.setName("Johan");
@@ -40,12 +39,42 @@ public class HibernateServiceImplTest extends DbBase
         hibernateService.saveOrUpdate(player);
 
         hibernateService.saveOrUpdate(player2);
-
-        Player p = hibernateService.get(Player.class, 1);
-        System.out.println(p.getPlayerId());
-
-        assertNotNull(p);
     }
 
+    @Test
+    public void deleteTest() throws Throwable
+    {
+        Player player = new Player();
+        player.setName("Johan");
+
+        hibernateService.saveOrUpdate(player);
+
+        Player p = hibernateService.get(Player.class, 1);
+        assertNotNull(p);
+        Assert.assertEquals("Johan", p.getName());
+
+        hibernateService.delete(player);
+
+        List<Player> players = hibernateService.getAll(Player.class);
+        assertNotNull(p);
+        Assert.assertEquals(0, players.size());
+    }
+
+    @Test
+    public void getAllPlayerTest() throws Throwable
+    {
+        Player player = new Player();
+        player.setName("Johan");
+
+        hibernateService.saveOrUpdate(player);
+
+        Player player2 = new Player();
+        player2.setName("Johan1");
+        hibernateService.saveOrUpdate(player2);
+
+        List<Player> p = hibernateService.getAll(Player.class);
+        assertNotNull(p);
+        Assert.assertEquals(2, p.size());
+    }
 
 }
