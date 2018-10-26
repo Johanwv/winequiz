@@ -1,6 +1,5 @@
 package nl.wine.quiz.service.hibernate;
 
-import nl.wine.quiz.model.Player;
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,7 +16,7 @@ import javax.persistence.Persistence;
 
 import static org.junit.Assert.assertNotNull;
 
-public class HibernateServiceTestBase
+public abstract class HibernateServiceTestBase
 {
     protected static EntityManagerFactory entityManagerFactory;
 
@@ -55,9 +54,6 @@ public class HibernateServiceTestBase
     }
 
     @After
-    public void afterTest() throws Throwable
-    {
-        hibernateService.deleteAll(hibernateService.getAll(Player.class));
-    }
+    public abstract void rollBack() throws Throwable;
 
 }

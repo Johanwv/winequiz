@@ -69,4 +69,9 @@ public class HibernateServiceImplTest extends HibernateServiceTestBase
         Assert.assertEquals(2, p.size());
     }
 
+    @Override
+    public void rollBack() throws Throwable
+    {
+        hibernateService.deleteAll(hibernateService.getAll(Player.class));
+    }
 }
