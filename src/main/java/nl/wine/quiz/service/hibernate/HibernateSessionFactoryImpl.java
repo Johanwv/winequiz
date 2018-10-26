@@ -3,9 +3,11 @@ package nl.wine.quiz.service.hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 
+@Service
 public class HibernateSessionFactoryImpl implements HibernateSessionFactory
 {
     private SessionFactory sessionFactory = getSessionFactory();

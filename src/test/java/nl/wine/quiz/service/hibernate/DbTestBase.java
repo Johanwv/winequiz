@@ -16,7 +16,7 @@ import javax.persistence.Persistence;
 
 import static org.junit.Assert.assertNotNull;
 
-public abstract class HibernateServiceTestBase
+public abstract class DbTestBase
 {
     protected static EntityManagerFactory entityManagerFactory;
 

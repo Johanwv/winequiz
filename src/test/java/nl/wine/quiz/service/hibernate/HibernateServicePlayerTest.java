@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-public class HibernateServiceImplTest extends HibernateServiceTestBase
+public class HibernateServicePlayerTest extends DbTestBase
 {
 
     @Test
