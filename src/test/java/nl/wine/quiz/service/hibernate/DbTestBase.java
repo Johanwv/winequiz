@@ -31,6 +31,7 @@ public abstract class DbTestBase
     @BeforeClass
     public static void init()
     {
+
         entityManagerFactory = Persistence.createEntityManagerFactory("thePersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
         assertNotNull(entityManager);

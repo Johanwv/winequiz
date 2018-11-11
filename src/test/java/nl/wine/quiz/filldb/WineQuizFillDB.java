@@ -3,20 +3,27 @@ package nl.wine.quiz.filldb;
 import nl.wine.quiz.filldb.csv.CsvReaderAndDbFiller;
 import nl.wine.quiz.filldb.game.PlayerFiller;
 import nl.wine.quiz.service.hibernate.HibernateService;
-import nl.wine.quiz.service.hibernate.HibernateServiceImpl;
 import nl.wine.quiz.service.hibernate.HibernateSessionFactory;
-import nl.wine.quiz.service.hibernate.HibernateSessionFactoryImpl;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/test-applicationContext.xml", "/applicationContext.xml"})
 public class WineQuizFillDB
 {
-    private HibernateService hibernateService = new HibernateServiceImpl();
+    @Autowired
+    private HibernateService hibernateService;
 
-    private HibernateSessionFactory sessionFactory = new HibernateSessionFactoryImpl();
+    @Autowired
+    private HibernateSessionFactory sessionFactory;
 
-    public static void main(String[] args)
+    @Test
+    public void filldb()
     {
-        new WineQuizFillDB().resetAndFillDb();
-        System.exit(0);
+        resetAndFillDb();
     }
 
     private void resetAndFillDb()

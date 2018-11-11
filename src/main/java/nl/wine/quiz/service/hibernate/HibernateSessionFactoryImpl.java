@@ -6,6 +6,8 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.io.IOException;
+import java.util.Properties;
 
 @Service
 public class HibernateSessionFactoryImpl implements HibernateSessionFactory
@@ -28,7 +30,18 @@ public class HibernateSessionFactoryImpl implements HibernateSessionFactory
     {
         if (sessionFactory == null)
         {
-            return new Configuration().configure().buildSessionFactory();
+            Configuration configuration = new Configuration();
+            Properties p = new Properties();
+            try
+            {
+                p.load(getClass().getClassLoader().getResourceAsStream("hibernate-config.properties"));
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            configuration.setProperties(p);
+            return configuration.configure().buildSessionFactory();
         }
         return sessionFactory;
     }

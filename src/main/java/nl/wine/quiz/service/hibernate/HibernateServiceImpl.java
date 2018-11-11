@@ -81,8 +81,7 @@ public class HibernateServiceImpl implements HibernateService
 
     private Session setUpTranscaction()
     {
-        Session session;
-        session = sessionFactory.getSession();
+        Session session = sessionFactory.getSession();
         session.beginTransaction();
         return session;
     }
