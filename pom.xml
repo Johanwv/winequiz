@@ -42,11 +42,13 @@
     </licenses>
     <properties>
         <wicket.version>8.0.0</wicket.version>
-        <jetty9.version>9.4.7.v20170914</jetty9.version>
+        <jetty9.version>9.4.9.v20180320</jetty9.version>
         <slf4j.version>1.7.25</slf4j.version>
         <junit.version>4.12</junit.version>
         <spring.version>5.0.7.RELEASE</spring.version>
+        <postgresql.version>42.2.5</postgresql.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javassist.version>3.18.1-GA</javassist.version>
         <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
         <wtp.version>none</wtp.version>
     </properties>
@@ -85,7 +87,6 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
-            <scope>test</scope>
             <version>${jetty9.version}</version>
         </dependency>
         <dependency>
@@ -93,6 +94,31 @@
             <artifactId>jetty-jmx</artifactId>
             <version>${jetty9.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-deploy</artifactId>
+            <version>${jetty9.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty9.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-plus</artifactId>
+            <version>${jetty9.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-xml</artifactId>
+            <version>${jetty9.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-start</artifactId>
+            <version>${jetty9.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
@@ -111,7 +137,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.5</version>
+            <version>${postgresql.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
@@ -228,13 +254,16 @@
                 <configuration>
                     <systemProperties>
                         <systemProperty>
-                            <name>maven.project.build.directory.test-classes</name>
-                            <value>${project.build.directory}/test-classes</value>
+                            <name>maven.project.build.directory.classes</name>
+                            <value>${project.build.directory}/classes</value>
                         </systemProperty>
                     </systemProperties>
                     <jettyXml>
-                        ${project.basedir}/src/test/jetty/jetty.xml,${project.basedir}/src/test/jetty/jetty-ssl.xml,${project.basedir}/src/test/jetty/jetty-http.xml,${project.basedir}/src/test/jetty/jetty-https.xml
+                        ${project.basedir}/src/main/jetty/jetty.xml
                     </jettyXml>
+                    <stopPort>9966</stopPort>
+                    <stopKey>foo</stopKey>
+                    <stopWait>10</stopWait>
                 </configuration>
             </plugin>
             <plugin>
@@ -264,6 +293,46 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <configuration>
+                    <imageName>winequiz</imageName>
+                    <dockerDirectory>${project.basedir}/docker/web</dockerDirectory>
+                    <forceTags>true</forceTags>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
+                    <pullOnBuild>true</pullOnBuild>
+                    <resources>
+                        <resource>
+                            <targetPath>/webapps/ROOT</targetPath>
+                            <directory>${project.build.directory}/${project.build.finalName}</directory>
+                        </resource>
+                        <resource>
+                            <targetPath>/lib/ext</targetPath>
+                            <directory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</directory>
+                            <include>postgresql-${postgresql.version}.jar</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/lib/ext</targetPath>
+                            <directory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</directory>
+                            <include>slf4j-api-${slf4j.version}.jar</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/lib/ext</targetPath>
+                            <directory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</directory>
+                            <include>javassist-${javassist.version}.jar</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/resources</targetPath>
+                            <directory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</directory>
+                            <include>logback.xml</include>
+                        </resource>
+                    </resources>
+                </configuration>
             </plugin>
         </plugins>
     </build>

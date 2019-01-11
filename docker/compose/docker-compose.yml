@@ -1,0 +1,26 @@
+version: '3.1'
+services:
+  winequiz:
+    image: winequiz
+    container_name: winequiz
+    ports:
+      - 8081:8080
+    depends_on:
+      - postgres
+    networks:
+      - ci
+  postgres:
+    build: ../db
+    restart: always
+    container_name: db_winequiz
+    environment:
+      - POSTGRES_USER=winequiz
+      - POSGRES_PASSWORD=winequiz
+      - POSTGRES_DB=winequiz
+    ports:
+      - 5433:5432
+    networks:
+      - ci
+networks:
+  ci:
+    driver: bridge
